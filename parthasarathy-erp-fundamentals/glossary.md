@@ -1,0 +1,63 @@
+# Glossary — Thuật ngữ ERP (Parthasarathy)
+
+Thuật ngữ gốc tiếng Anh (in đậm) + gloss tiếng Việt + định nghĩa ngắn. Sắp theo bảng chữ cái tiếng Anh. Giải thích đầy đủ xem file chương.
+
+- **ABC (Always Better Control) analysis** (phân tích ABC) — phân loại mặt hàng tồn kho để kiểm soát khác nhau theo mức quan trọng (Ch 3).
+- **Abnormal Sales Order** (đơn hàng bất thường) — đơn tăng đột biến vượt dự báo; được ưu tiên hơn đơn đã lên kế hoạch (Ch 3).
+- **Advanced Configurator** (bộ cấu hình nâng cao) — đặt luật để đơn cấu hình thực sự sản xuất được (Ch 11).
+- **Advanced Planning & Scheduling (APS)** (hoạch định & lập lịch nâng cao) — hệ "thông minh" có mô hình hóa/phân tích hỗ trợ quyết định; tương phản ERP transaction-based (Ch 1).
+- **Assemble-to-Order** (lắp ráp theo đơn) — dự trữ linh kiện theo dự báo, nhận đơn mới lắp ráp theo đặc tả khách (Ch 2).
+- **Benefits Realization** (hiện thực hóa lợi ích) — lợi ích hiện theo 3 cấp: tự động hóa → cải thiện quy trình → hỗ trợ ra quyết định; mất tới ~1 năm (Ch 5).
+- **Big Bang approach** (triển khai một lần toàn bộ) — đưa mọi module vận hành cùng lúc; lợi ích đầy đủ nhưng rủi ro cao (Ch 5, Ch 11).
+- **Bill of Materials (BOM)** (định mức nguyên vật liệu) — bản kê phân cấp cấu thành sản phẩm; "nổ" MPS thành nhu cầu linh kiện; BOM sai gây thiếu vật tư (Ch 2, Ch 11).
+- **Business actor** (tác nhân nghiệp vụ) — người/vật bên ngoài doanh nghiệp tương tác với nó (vd Customer/Supplier Role) (Ch 12).
+- **Business Process Reengineering (BPR)** (tái cấu trúc quy trình) — theo Michael Hammer: tư duy lại nền tảng và tái thiết kế triệt để các quy trình (Ch 5).
+- **Business use case** (ca sử dụng nghiệp vụ) — chuỗi hành động tạo kết quả có giá trị quan sát được cho một business actor (Ch 12).
+- **Business worker** (vai trò nghiệp vụ nội bộ) — vai trò bên trong doanh nghiệp, thao tác các business entity (Ch 12).
+- **CAD / CAM** (thiết kế/sản xuất có máy tính hỗ trợ) — Computer-Aided Design (thiết kế sản phẩm) và Computer-Aided Manufacturing (vận hành máy điều khiển bằng máy tính) (Ch 7).
+- **Carrying costs** (chi phí lưu giữ) — chi phí kho bãi, bảo hiểm, bốc dỡ, kiểm tra tăng theo lượng tồn kho (Ch 3).
+- **Common Language Runtime (CLR)** (lõi thực thi .NET) — thực thi mã trung gian IL; cho mã nhiều ngôn ngữ chạy trên mọi OS hỗ trợ CLR (Ch 9).
+- **Cost Benefit Analysis** (phân tích chi phí-lợi ích) — analysis để quyết định có làm hay không; bất lợi thì dừng dự án, không phải justification (Ch 4).
+- **Cost controlling** (kiểm soát chi phí) — phân hệ Finance: kế toán, internal audit, thuế, ngân sách, kiểm soát cash/funds flow (Ch 3).
+- **Critical Success Factors (CSF)** (yếu tố thành công then chốt) — vấn đề lãnh đạo phải giải quyết: quy trình rõ, cam kết, nguồn lực, lịch & change management (Ch 5).
+- **Customer Relationship Management (CRM)** (quản trị quan hệ khách hàng) — front-office của ERP: nhận diện, thu hút, giữ chân khách sinh lời (Ch 8).
+- **Customization** (tùy biến) — điều chỉnh phần mềm cho khớp tổ chức; không sửa base; customize càng cao lợi ích ERP càng thấp (Ch 5).
+- **Cycle time** (thời gian chu trình) — thời gian từ nhận đơn đến giao sản phẩm; ERP rút ngắn nhiều nhất với make-to-order (Ch 1).
+- **Data Mining** (khai phá dữ liệu) — phát hiện các mẫu giá trị, không hiển nhiên, từ dữ liệu lớn (neural network, decision tree...) (Ch 8).
+- **Data Warehouse** (kho dữ liệu) — tập dữ liệu hướng chủ đề, tích hợp, không biến đổi; phục vụ phân tích off-line cho quyết định (Ch 8).
+- **Dependent vs Independent demand** (nhu cầu phụ thuộc/độc lập) — linh kiện là dependent (tính từ BOM); thành phẩm là independent (dự báo) — mấu chốt MRP (Ch 2).
+- **Engineer-to-Order (ETO)** (thiết kế theo đơn) — sản phẩm thiết kế riêng từng khách; cần nhiều thời gian hiểu yêu cầu & chuyển đổi BOM lớn (Ch 11).
+- **Enterprise Resource Planning (ERP)** (hoạch định nguồn lực doanh nghiệp) — phần mềm đóng gói tích hợp mọi phòng ban trên một CSDL chung, chia sẻ thông tin real-time (Ch 1).
+- **ERP II** — định nghĩa lại của Gartner: ERP componentized + e-business + cộng tác chuỗi; gồm Central/Corporate/Collaborative (Ch 2).
+- **Finance Module** (phân hệ tài chính) — 5 phân hệ: Accounting, Investment mgmt, Cost controlling, Treasury mgmt, Planning & forecasting (Ch 3).
+- **Functional vs Technical consultant** (tư vấn nghiệp vụ/kỹ thuật) — functional xem xét business process của tổ chức; technical xử lý lỗi kỹ thuật (Ch 4).
+- **Gap Analysis** (phân tích khoảng trống) — tìm gap giữa quy trình hiện tại và gói; lấp bằng third-party, chương trình tùy biến, hoặc sửa source (Ch 5).
+- **HRD (Human Resource Development)** (phát triển nguồn nhân lực) — phát triển kỹ năng, kiến thức, thái độ theo yêu cầu công việc hiện tại & tương lai (Ch 3).
+- **Integration (automatic data updation)** (tích hợp / tự động cập nhật) — ưu điểm số một của ERP: một giao dịch tự cập nhật mọi nghiệp vụ liên quan (Ch 1).
+- **Inventory turns** (vòng quay tồn kho) — số vòng quay tồn kho/năm; KPI điển hình, nhiều case tăng từ ~2 lên 6 (Ch 11).
+- **JIT (Just-in-Time)** (đúng lúc) — cung ứng vật tư đúng nhu cầu kỳ vọng để giảm tồn kho (Ch 3).
+- **Lead-time** (thời gian chờ) — thời gian từ đặt hàng đến nhận hàng; then chốt cho mua hàng & kiểm soát tồn kho (Ch 1).
+- **Make-to-Order** (sản xuất theo đơn) — chỉ phát triển/giao khi khách đặt; kết hợp hàng chuẩn và hàng thiết kế riêng (Ch 2).
+- **Make-to-Stock** (sản xuất để tồn kho) — sản xuất trước khi có đơn, lấp đơn từ tồn kho (Ch 2).
+- **Managed code** (mã được quản lý) — mã do .NET quản lý: nhẹ, nhanh, bảo mật, chạy song song phiên bản, TCO thấp (Ch 9).
+- **Manufacturing Resource Planning (MRP II)** (hoạch định nguồn lực sản xuất) — mở rộng closed-loop MRP; mô phỏng what-if; hoạch định theo đơn vị lẫn tài chính (Ch 2).
+- **Master Production Schedule (MPS)** (lịch sản xuất tổng thể) — kế hoạch time-phased lượng từng thành phẩm mỗi kỳ; phải khả thi trong năng lực (Ch 2).
+- **Material Requirements Planning (MRP)** (hoạch định nhu cầu vật tư) — xác định số lượng & thời điểm mua/sản xuất dependent item từ MPS qua BOM (Ch 2).
+- **Materials Management (MM)** (quản lý vật tư) — "central point of logistics"; gồm Inventory, MRP, Purchasing, Warehouse, Vendor evaluation, Invoice verification, Product costing (Ch 3).
+- **META Group six migration phases** (sáu pha di trú) — Analysis → Definition → Coordination → Transition → Ongoing management → Change Management (Ch 6).
+- **mySAP ERP** — bộ ERP của SAP gồm 4 giải pháp: Financials, HCM, Operations, Corporate Services (Ch 10).
+- **Operating System (OS)** (hệ điều hành) — tầng nền ERP chạy trên; 4 chức năng Command/Peripheral/Memory/Process; single/multi-user (Ch 6).
+- **Operational / Analytical / Collaborative CRM** (ba thành phần CRM) — tự động hóa quy trình / phân tích & báo cáo / kênh cộng tác email-chat-web (Ch 8).
+- **Quote-to-Cash / Requisition-to-Pay** (báo giá-thu tiền / yêu cầu-thanh toán) — hai quy trình xuyên suốt: báo giá→đơn→hóa đơn→thu tiền; mua→nhận→thanh toán (Ch 8).
+- **Requirements profile** (hồ sơ yêu cầu) — hồ sơ yêu cầu dựng ở Phase 1; nguồn chuẩn để đánh giá mọi sản phẩm và kiểm soát demo (Ch 4).
+- **Role Activity Diagram (Swimlanes)** (sơ đồ hoạt động theo vai trò) — activity diagram chia hoạt động vào các cột swimlanes, trả lời "ai làm gì" (Ch 12).
+- **Sales & Distribution (SD)** (bán hàng & phân phối) — 6 key element: Selling, Shipping, Billing, Master Data Mgmt, Order Mgmt, Pricing; luồng Sales→Shipping→Billing (Ch 3).
+- **SAP R/3** — ERP client/server ba tầng đầu tiên ra thị trường (1993), đưa SAP lên số một; R/2 cho mainframe (Ch 10).
+- **SOAP (Simple Object Access Protocol)** — giao thức để Web services giao tiếp qua Internet; dùng HTTP nên thường qua được firewall (Ch 9).
+- **Software Configuration Management (SCM)** (quản lý cấu hình phần mềm) — quản lý quá trình thay đổi và mọi artifact hệ thống; KHÁC Supply Chain Management (Ch 5).
+- **Supply Chain Management (SCM)** (quản trị chuỗi cung ứng) — điều phối dòng hàng/thông tin/tài chính từ nguyên liệu tới người tiêu dùng; mạnh ở dự báo & tối ưu (Ch 7).
+- **Three motives for holding inventory** (ba động cơ giữ tồn kho) — Transactions (vận hành), Precautionary (phòng bất định), Speculative (đầu cơ) (Ch 3).
+- **Total Cost of Ownership (TCO)** (tổng chi phí sở hữu) — OS "miễn phí" như Linux đôi khi TCO cao hơn do chi phí quản trị & khan hiếm nhân lực (Ch 6).
+- **Treasury management** (quản lý ngân quỹ) — phân hệ Finance: tài trợ, quan hệ ngân hàng, tiền mặt, tín dụng, đầu tư, bảo hiểm (Ch 3).
+- **Unified Modeling Language (UML)** (ngôn ngữ mô hình hóa thống nhất) — ký pháp chuẩn hướng đối tượng; giao diện chung giữa business analyst và system analyst (Ch 12).
+- **XML Web services** (dịch vụ web XML) — mô hình .NET tạo/dùng ứng dụng dựa trên XML, chia sẻ thông tin & chức năng trên mọi nền tảng (Ch 9).

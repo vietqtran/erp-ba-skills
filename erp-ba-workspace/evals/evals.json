@@ -1,0 +1,74 @@
+{
+ "skill_name": "erp-ba-suite",
+ "evals": [
+  {
+   "id": 1,
+   "name": "requirements-from-meeting-construction",
+   "prompt": "Mình là BA, vừa họp khảo sát với khách hàng Công ty CP Xây dựng An Phú Thịnh, biên bản ghi âm gõ lại ở file /home/tm8-card4/ba-skills/erp-ba-workspace/evals/files/bien-ban-khao-sat-xay-dung.md. Giúp mình làm bước thu thập yêu cầu: tổng hợp danh sách yêu cầu, viết tài liệu tổng quan và quy trình tổng quan (TO-BE) cho mảng vật tư công trường, và liệt kê các câu cần hỏi lại khách. Lưu toàn bộ tài liệu vào thư mục {OUTPUTS}/docs.",
+   "expected_output": "Sổ yêu cầu có trích dẫn nguồn; tài liệu tổng quan & quy trình TO-BE chuẩn ERP có sơ đồ swimlane; mâu thuẫn và chỗ mơ hồ thành câu hỏi thay vì bị bịa; danh sách câu hỏi gửi khách.",
+   "files": [
+    "/home/tm8-card4/ba-skills/erp-ba-workspace/evals/files/bien-ban-khao-sat-xay-dung.md"
+   ],
+   "expectations": [
+    "Có sổ yêu cầu dạng bảng, mỗi yêu cầu có ID, trích nguyên văn câu nói của khách hàng và người nói hoặc nguồn",
+    "Mâu thuẫn ngưỡng duyệt (20 triệu theo ông Minh, 50 triệu theo bà Hà) được ghi là mâu thuẫn hoặc câu hỏi cần xác nhận, không tự chọn một con số làm yêu cầu đã chốt",
+    "Mong muốn 'duyệt nhanh' không bị biến thành một thời hạn hay con số tự đặt; được ghi là cần làm rõ hoặc câu hỏi",
+    "Mong muốn 'báo cáo cho đẹp' không bị diễn giải thành yêu cầu cụ thể tự bịa; được ghi là cần làm rõ hoặc câu hỏi",
+    "Chuyện đội bóng thắng giải không bị ghi thành yêu cầu",
+    "Có quy trình TO-BE với ít nhất một sơ đồ swimlane (Mermaid flowchart có subgraph theo vai trò) và mọi sơ đồ Mermaid trong output đều render được",
+    "Quy trình tổng quan có cả nhánh nhà cung cấp giao thẳng ra công trường và nhánh về kho tổng rồi điều chuyển ra công trường",
+    "Phân quyền dữ liệu theo công trình (chỉ huy trưởng chỉ thấy dữ liệu công trình mình) được ghi nhận thành yêu cầu",
+    "Có danh sách câu hỏi gửi lại khách hàng, gồm ít nhất: ngưỡng duyệt, dữ liệu dự toán dùng để cảnh báo vượt (nguồn, cấp độ so sánh), tiêu chí cho báo cáo",
+    "Tích hợp MISA được ghi là ngoài phạm vi giai đoạn này, không bị đưa thành yêu cầu tích hợp giai đoạn 1",
+    "Không có yêu cầu nào chứa con số (ngưỡng, thời hạn, tỷ lệ) không xuất hiện trong biên bản mà không được đánh dấu là đề xuất hoặc cần xác nhận"
+   ]
+  },
+  {
+   "id": 2,
+   "name": "function-spec-employee-advance",
+   "prompt": "Dựa trên kết quả thu thập yêu cầu ở file /home/tm8-card4/ba-skills/erp-ba-workspace/evals/files/yeu-cau-tam-ung.md, viết đặc tả chức năng 'Đề nghị tạm ứng' chi tiết đến mức dev code được ngay, không phải hỏi lại BA. Lưu tài liệu vào thư mục {OUTPUTS}/docs.",
+   "expected_output": "Một đặc tả chức năng đầy đủ (vai trò kể cả vai trò thao tác một phần, ma trận quyền, user story + AC, luồng, sơ đồ swimlane/quyết định/sequence/trạng thái, FR, BR, dữ liệu, màn hình, tham số, hạch toán TT133, thông báo lỗi, NFR), không bịa ngưỡng chưa có, câu hỏi mở được ghi lại.",
+   "files": [
+    "/home/tm8-card4/ba-skills/erp-ba-workspace/evals/files/yeu-cau-tam-ung.md"
+   ],
+   "expectations": [
+    "Đặc tả có đủ các phần: mô tả, vai trò và ma trận phân quyền, user story kèm tiêu chí nghiệm thu dạng Cho trước/Khi/Thì (Given/When/Then), luồng chính/thay thế/ngoại lệ, yêu cầu chức năng, quy tắc nghiệp vụ, đặc tả trường dữ liệu, màn hình, tham số hệ thống, thông báo lỗi, yêu cầu phi chức năng",
+    "Có đủ 4 loại sơ đồ: luồng nghiệp vụ swimlane, sơ đồ quyết định có hình thoi, sequence diagram, state diagram — và tất cả render được bằng Mermaid",
+    "Ngưỡng 'khoản lớn' cho giám đốc duyệt không bị bịa thành con số đã chốt; được làm tham số hệ thống và/hoặc câu hỏi cần khách hàng xác nhận",
+    "Vai trò thao tác một phần được đặc tả: kế toán thanh toán chỉ sửa tài khoản hạch toán và hình thức chi (không sửa số tiền, lý do); thủ quỹ chi tiền mặt",
+    "Quy tắc chặn tạm ứng mới khi người đề nghị còn khoản tạm ứng chưa hoàn quá 30 ngày được đặc tả rõ điều kiện, thời điểm kiểm tra và thông báo lỗi",
+    "Hạch toán khi chi tạm ứng đúng: Nợ 141 / Có 111 khi chi tiền mặt, Nợ 141 / Có 112 khi chuyển khoản",
+    "Không tự thêm ngoại tệ hay nghiệp vụ hoàn ứng (thanh toán tạm ứng) vào phạm vi chức năng",
+    "Bộ trạng thái chứng từ nhất quán giữa sơ đồ trạng thái và bảng chuyển trạng thái",
+    "Mỗi yêu cầu chức năng và quy tắc nghiệp vụ có nguồn truy được (REQ/DEC hoặc chuẩn/luật cụ thể)",
+    "Câu 'người đề nghị có được tạm ứng cho người khác không' được ghi là câu hỏi mở, không tự quyết"
+   ]
+  },
+  {
+   "id": 3,
+   "name": "independent-review-flawed-sales-order",
+   "prompt": "Nhờ review khách quan giúp tài liệu đặc tả đơn bán hàng ở /home/tm8-card4/ba-skills/erp-ba-workspace/evals/files/dac-ta-don-ban-hang.md (yêu cầu gốc đã được khách hàng ký ở /home/tm8-card4/ba-skills/erp-ba-workspace/evals/files/yeu-cau-don-ban-hang.md). Tìm mọi chỗ lệch, thiếu, thừa, mâu thuẫn, mơ hồ, sai chuẩn ERP hoặc chưa đủ để code. Ghi kết quả review vào {OUTPUTS}/review.md.",
+   "expected_output": "Báo cáo review phát hiện 13 lỗi cài sẵn với bằng chứng và kết luận chưa đạt.",
+   "files": [
+    "/home/tm8-card4/ba-skills/erp-ba-workspace/evals/files/dac-ta-don-ban-hang.md",
+    "/home/tm8-card4/ba-skills/erp-ba-workspace/evals/files/yeu-cau-don-ban-hang.md"
+   ],
+   "expectations": [
+    "Phát hiện chức năng thừa: tích điểm khách hàng thân thiết (FR-SAL-02-06) không có trong yêu cầu",
+    "Phát hiện thiếu kiểm tra hạn mức công nợ khi duyệt (REQ-104 không được đặc tả)",
+    "Phát hiện lệch ngưỡng duyệt: tài liệu dùng 100 triệu trong khi yêu cầu là từ 200 triệu trở lên",
+    "Phát hiện mâu thuẫn trạng thái: SHIPPED trong sơ đồ trạng thái khác DELIVERING trong bảng chuyển trạng thái/luồng",
+    "Phát hiện yêu cầu mơ hồ: 'phản hồi nhanh' (NFR-SAL-02-01) và/hoặc 'giá bán phải phù hợp' (BR-SAL-02-04)",
+    "Phát hiện FR-SAL-02-05 (in đơn) không có tiêu chí nghiệm thu",
+    "Phát hiện BR-SAL-02-03 (chiết khấu tối đa 5%) là kiểm tra nhưng thiếu thông báo lỗi",
+    "Phát hiện hạch toán sai: ghi nhận doanh thu và thuế đầu ra (Nợ 131 / Có 511, 3331) khi duyệt đơn bán là sai; doanh thu ghi nhận khi giao hàng/xuất hóa đơn",
+    "Phát hiện thiếu vai trò thủ kho xem đơn đã duyệt để soạn hàng (REQ-106)",
+    "Phát hiện sơ đồ quyết định thiếu nhánh 'Không' của điều kiện ngưỡng và/hoặc lỗi cú pháp Mermaid (nhãn có ngoặc đơn không đặt trong ngoặc kép)",
+    "Phát hiện quy tắc hủy sai: cho hủy khi đang giao (DELIVERING) trái REQ-108 (chỉ hủy khi chưa giao)",
+    "Phát hiện vi phạm phân tách nhiệm vụ: nhân viên kinh doanh có quyền Duyệt đơn của mình (trái REQ-105)",
+    "Phát hiện nhân viên được sửa đơn giá (mục 10) trái REQ-102",
+    "Kết luận của báo cáo là tài liệu chưa đạt / chưa sẵn sàng cho dev (không kết luận đạt)"
+   ]
+  }
+ ]
+}

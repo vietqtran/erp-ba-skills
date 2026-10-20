@@ -1,0 +1,82 @@
+# Glossary — Enterprise Resource Planning Systems (O'Leary, 2000)
+
+Thuật ngữ ERP theo chuẩn tác giả. Tên framework/model giữ nguyên tiếng Anh (in đậm), kèm gloss tiếng Việt. Sắp xếp theo thứ tự ABC của thuật ngữ tiếng Anh.
+
+- **Add-ons** (phần mềm bổ trợ) — phần mềm bên thứ ba tăng năng lực ERP, nối qua ALE/OLE/RFC (Ch 3).
+- **As Is / To Be** (hiện trạng / trạng thái đích) — mô hình quy trình hiện tại ("as is") và quy trình tương lai mong muốn ("to be"); khoảng cách giữa chúng là cơ sở chọn và cấu hình phần mềm (Ch 2, 8, 9).
+- **Available to Promise (ATP)** (cam kết giao hàng) — khả năng xác nhận và giữ tồn kho theo thời gian thực, cắt ngang nhiều site/module; chỉ có khi đủ hạ tầng ERP (Ch 7, 11).
+- **Backsliding** (trượt lùi) — nguy cơ quay về quy trình cũ khi quy trình mới gặp khó khi triển khai (Ch 9).
+- **Balanced Scorecard** (thẻ điểm cân bằng) — khung đánh giá 4 góc nhìn của Kaplan & Norton (financial, customer, learning & growth, internal process), ánh xạ sang 4 business-case rationale của ERP (Ch 12).
+- **Best of breed** (chọn tinh hoa) — chiến lược phối ghép module từ nhiều vendor; đánh đổi bằng sáu nhóm chi phí ẩn (tìm kiếm, look-and-feel, tích hợp, đội ngũ, lệch phiên bản, mất đồng nhất) (Ch 3).
+- **Best practices** (thông lệ tốt nhất) — cách làm quy trình được coi là tốt nhất, nhúng sẵn trong ERP dưới dạng các lựa chọn phải quyết khi triển khai (SAP R/3 có hơn 1.000) (Ch 1).
+- **Big Bang** (triển khai một lần) — bật toàn bộ bộ module tại mọi địa điểm gần như cùng lúc trong vài ngày, sau một đợt test lớn (Ch 11).
+- **Big-R Reengineering** (tái cấu trúc lớn) — thay đổi mạnh cả quy trình tổ chức lẫn phần mềm ERP; tốn nhiều nguồn lực, rủi ro cao (Boeing-BAAN) (Ch 9).
+- **BOPSE** (năm vendor ERP lớn) — BAAN, Oracle, PeopleSoft, SAP, J.D. Edwards (Ch 3).
+- **Borda Rule** (luật Borda) — luật chọn nhóm: mỗi người xếp hạng các phương án, hạng cao được nhiều điểm, cộng tổng để chọn chuẩn (Litton) (Ch 10).
+- **Build to Forecast (BTF)** (sản xuất theo dự báo) — dự báo nhu cầu rồi sản xuất trước; dễ lỗi thời với sản phẩm thay đổi nhanh (Ch 14).
+- **Build to Order (BTO)** (sản xuất theo đơn) — chỉ sản xuất khi có đơn, giữ tồn kho ở dạng nguyên vật liệu — "thay tồn kho bằng công nghệ IT"; cần configuration engine + ERP real-time (Ch 14).
+- **Bullet-proofing** (gia cố kiểm soát) — bảo vệ chặt hệ thống (giới hạn truy cập, backup); môi trường client server dễ bị bỏ sót kiểm soát hơn mainframe (Ch 15).
+- **Business case rationale** (lý do nghiệp vụ) — căn cứ biện minh chọn ERP, chia 4 nhóm: technology, business process, strategic, competitive (Ch 7).
+- **Clean slate reengineering** (tái cấu trúc từ đầu) — thiết kế quy trình tối ưu không bị ràng buộc rồi mới fit phần mềm; độc nhất nhưng tốn kém và rủi ro bất khả thi (Ch 6).
+- **Client server computing** (điện toán khách-chủ) — phân tán tính toán/lưu trữ giữa máy khách và máy chủ; enterprise thường dùng three-tier (tách server ứng dụng, CSDL, giao diện) (Ch 2).
+- **Common / global MAPs** (MAPs dùng chung toàn cục) — mô hình/chứng từ/quy trình dùng chung cho mọi đơn vị thay vì mỗi đơn vị tự chọn như thời legacy (Ch 10).
+- **Concurrent transformation** (biến đổi đồng thời) — tên Gemini Consulting cho việc tái cấu trúc và triển khai ERP diễn ra đồng thời (một dạng technology enabled) (Ch 6).
+- **Configuration Engine (CE)** (bộ cấu hình/kiểm lỗi đơn) — cỗ máy kiểm tra đơn hàng để chặn lỗi phổ biến (sai part number) và liệt kê linh kiện cần build; lõi của web-ordering và BTO (Ch 14).
+- **Conference room pilot** (chạy thử theo module) — test một module với dải giao dịch để xem có chạy đúng không (Ch 11).
+- **Customized reports** (báo cáo tùy biến) — báo cáo đúng nhu cầu nhưng ngắn hạn: nhu cầu đổi, tốn chi phí, cản nâng cấp (Ch 5).
+- **Cultural fit** (độ hợp văn hóa) — ERP có thể bị từ chối nếu không hợp văn hóa; "phần mềm một mình không đổi được văn hóa" (Ch 15).
+- **Data conversion** (chuyển đổi dữ liệu) — đưa dữ liệu cũ về định dạng mới; cần reconcile + mapping vì lỗi chỉ lộ dần dưới dạng triệu chứng kinh doanh (Ch 12).
+- **Data input controls** (kiểm soát đầu vào) — ràng buộc, kiểm tra, bắt buộc xác nhận; bắt buộc có khi "nhập một lần" vì hệ không còn dự phòng phát hiện lỗi (Ch 4).
+- **Data warehouse** (kho dữ liệu) — kho tối ưu truy vấn chứa nhiều năm giao dịch; làm clearing house và nền cho knowledge discovery (Ch 2, 5).
+- **DBMS** (hệ quản trị CSDL) — cung cấp truy vấn và trình sinh báo cáo; gần như không đổi được sau triển khai — một NFR cố định (Ch 2).
+- **Dictatorship** (độc đoán) — một division (corporate office hoặc division lớn) đơn phương quyết chuẩn MAPs chung (Owens Corning, Colgate) (Ch 10).
+- **EDI (Electronic Data Interchange)** (trao đổi dữ liệu điện tử) — trao đổi "chunk" chuẩn (invoice) định dạng chuẩn qua VAN; dùng cho khối lượng lớn/đối tác lớn; bền nhưng cứng và đắt (Ch 14).
+- **Engagement compromise** (nhượng bộ cốt lõi) — khi implementation compromise cắt đúng phần quy trình là lý do đi ERP; phá vỡ giá trị của dự án (Ch 12).
+- **ERP Hokey Pokey** (dạy bấm nút) — training thoái hóa thành dạy thao tác bấm nút không kèm ngữ cảnh nghiệp vụ (Ch 13).
+- **ERP portal** (cổng theo vai trò) — cổng/desktop web gom truy cập module con, báo cáo, help-desk, lịch, email, tin tức, thương mại điện tử theo vai trò công việc (Ch 5, 14).
+- **ERP system** (hệ thống ERP) — phần mềm đóng gói client server, tích hợp phần lớn quy trình quanh một CSDL toàn doanh nghiệp, lưu mỗi dữ liệu thường một lần, truy cập thời gian thực (Ch 1).
+- **Event triggers** (sự kiện kích hoạt) — các sự kiện trong SAP xác định khi nào thu thập dữ liệu (bán hàng, nhận hàng từ PO, giữ vật tư, xuất hàng, điều chuyển kho...) (Ch 4).
+- **Flat file database** (tệp phẳng) — tệp hai chiều không liên kết, dễ dùng nhưng dư thừa dữ liệu cao (Ch 2).
+- **Gap analysis** (phân tích khoảng cách) — so sánh "as is" với "to be" để tìm khoảng cách và các modification cần thiết cùng chi phí thực (Ch 8).
+- **Gather data once** (nhập một lần) — nhập dữ liệu một lần tại điểm phát sinh; chi phí thấp, nhất quán, nhưng sai một chỗ sai toàn hệ ⇒ bắt buộc input controls (Ch 4).
+- **Hard vs soft data** (dữ liệu cứng/mềm) — dữ liệu "cứng" (chi phí Y2K theo dòng mã) được lãnh đạo tin; dữ liệu "mềm" (ROI dự phóng năng suất) khó tạo buy-in (Ch 7).
+- **Implementation compromise** (nhượng bộ triển khai) — sai lệch so với kế hoạch để tiết kiệm thời gian/tiền ("làm sau"); nguy hiểm nếu biến thành engagement compromise (Ch 12).
+- **Information asymmetry** (bất đối xứng thông tin) — cùng một sự kiện nhưng các nhóm chức năng/địa điểm có báo cáo khác nhau, thông tin mắc kẹt cục bộ; ERP xóa nhờ CSDL chung (Ch 1).
+- **Interchangeability** (khả năng thay thế) — module ERP KHÔNG thay thế lẫn nhau giữa các vendor; ít động lực để làm tương thích (Ch 3).
+- **Job-based training** (đào tạo theo công việc) — đào tạo theo công việc thực tế, không chỉ học cách bấm nút phần mềm (tiêu chí checklist Deloitte) (Ch 13).
+- **Knowledge discovery** (khai phá tri thức) — khai phá quan hệ giữa các biến trong kho dữ liệu bằng thống kê/AI để tạo giá trị từ dữ liệu giao dịch (Ch 5).
+- **Legacy software** (phần mềm cũ) — phần mềm tự phát triển riêng cho doanh nghiệp, chi phí bảo trì cao (Ch 2).
+- **Majority Vote** (đa số phiếu) — luật chọn nhóm "democratic": chọn MAP x thay y nếu nhiều division thích x hơn (Ch 10).
+- **MAPs (Models, Artifacts, Processes)** (mô hình, chứng từ, quy trình) — khung ba thành phần tạo nên một hệ ERP được cấu hình: mô hình tổ chức/dữ liệu (kèm giả định), chứng từ & danh mục, và quy trình liên chức năng (Ch 3, 8, 10).
+- **Merge in Transit (MIT)** (hợp nhất khi vận chuyển) — gom hàng từ nhiều điểm xuất, hợp nhất khi đang vận chuyển thành một lô giao khách, một PO, một invoice (Dell-UPS) (Ch 14).
+- **Module fit** (độ khớp module) — mức khớp giữa module và yêu cầu (Siemens: finance ~100%, module khác 70-80% ⇒ cần modification) (Ch 11).
+- **Obliteration** (xóa sạch làm lại) — triết lý tái cấu trúc "phá bỏ rồi làm lại" (Hammer 1990); thường thất bại vì không biết thay bằng gì (Ch 2).
+- **Organizational risk** (rủi ro tổ chức) — rủi ro từ con người, cơ cấu, văn hóa; mức cao nhất trong ba loại (organizational > business > technical) (Ch 15).
+- **Package software** (phần mềm đóng gói) — phần mềm dựng cho nhiều tổ chức dùng chung; chọn năng lực bằng tham số thay vì lập trình lại — "mua luôn tầm nhìn của vendor" (Ch 2).
+- **Pareto Optimality** (tối ưu Pareto) — chọn phương án mà không phương án nào khác làm một division hài lòng hơn mà không làm division khác kém đi (Ch 10).
+- **Phased implementation** (triển khai theo giai đoạn) — triển khai tuần tự từng module/nhóm module, thường từng địa điểm; cần temporary interface tới legacy ở mỗi pha (Ch 11).
+- **Reengineering policy** (chính sách tái cấu trúc) — chính sách về mức tùy biến phần mềm và mức tái cấu trúc tổ chức khi triển khai ERP (Ch 9).
+- **Relational database** (CSDL quan hệ) — các bảng liên kết qua khóa tham chiếu, loại bỏ dư thừa; là lý do kỹ thuật khiến "nhập một lần" khả thi (Ch 2).
+- **Requirements analysis** (phân tích yêu cầu) — rà soát yêu cầu đối với MAPs, phân loại theo mức quan trọng, tổng hợp thành RFP gửi vendor (Ch 8).
+- **Requirements granularity** (độ mịn yêu cầu) — một yêu cầu có thể là cả một bộ best practice hoặc chỉ một trường dữ liệu; bỏ qua sẽ đếm sai khi so khớp (Ch 8).
+- **RFP (Request for Proposal)** (hồ sơ yêu cầu chào thầu) — tài liệu yêu cầu gửi vendor để đối chiếu năng lực phần mềm với nhu cầu (Ch 8).
+- **Risk Matrix** (ma trận rủi ro) — khung nhận diện rủi ro ERP hai chiều: giai đoạn vòng đời × loại rủi ro (technical/business/organizational) (Ch 15).
+- **Running in parallel** (chạy song song) — chạy song song hệ cũ và mới một thời gian để đối chiếu; low-risk nhưng tốn gấp đôi và kém giá trị nếu đã reengineering mạnh (Ch 11).
+- **Screens-to-Transactions** (màn hình trên giao dịch) — mô hình độ khó triển khai = tỉ lệ số màn hình ERP/legacy × khối lượng giao dịch; cũng đo "fit" (Ch 4).
+- **Script-based materials** (tài liệu theo kịch bản) — tài liệu dẫn user từng bước qua trọn một giao dịch, đặt trên mạng nội bộ; context-based, kiêm tài liệu hệ thống và FAQ (Ch 13).
+- **Small-r Reengineering** (tái cấu trúc nhỏ) — thay đổi tối thiểu cả tổ chức lẫn phần mềm; tổ chức thích nghi với phần mềm khớp sẵn, nhanh và rẻ (Microsoft SAP) (Ch 9).
+- **Software taker** (bên nhận phần mềm) — doanh nghiệp nhỏ/vừa chấp nhận phần mềm như nó vốn có, không đủ lực buộc vendor sửa riêng (Ch 8, 9).
+- **Stabilization period** (giai đoạn ổn định) — 3-9 tháng sau go-live, hiệu năng thường tụt khi user làm quen quy trình/phần mềm mới (Ch 12).
+- **Super users** (người dùng nòng cốt) — thành viên tổ chức khách được đào tạo trước để huấn luyện lại người khác, tạo buy-in và lan tỏa hiểu biết (Ch 13).
+- **Switch setting** (thiết lập tham số) — "công tắc" phần mềm để bật/tắt và chọn giữa các năng lực của gói mà không lập trình lại (parameterization) (Ch 2).
+- **Systems Validation Test (SVT)** (test kiểm chứng hệ thống) — test diện rộng với ~100 user nhập khối lượng giao dịch lớn, mô phỏng tải tương lai và test cả phần cứng (Ch 11).
+- **Technical risk** (rủi ro kỹ thuật) — rủi ro từ công nghệ (OS, CSDL, client server, network, phần mềm); dễ sửa nhất, thường chỉ cần nâng cấp (Ch 15).
+- **Technology enabled (constrained) reengineering** (tái cấu trúc dựa trên công nghệ) — chọn ERP/công nghệ trước rồi thiết kế quy trình trong giới hạn phần mềm; nhanh, rẻ, khả thi nhưng bị ràng buộc (Ch 6).
+- **Temporary interface** (giao diện tạm) — cầu nối tạm giữa module ERP mới và legacy, đặc trưng của phased; big bang không cần (Ch 11).
+- **Time-shared client (Citrix)** (client chia sẻ) — client ERP chạy trên một server mạnh, user chỉ cần browser + Internet; nâng cấp chỉ sửa ở server (Ch 14).
+- **User resistance** (chống đối người dùng) — chống đối do thay đổi ai/cách nhập liệu khi tái cấu trúc; ảnh hưởng chi phí và thành bại triển khai (Ch 4).
+- **VAN (value-added network)** (mạng giá trị gia tăng) — mạng chuyên dụng truyền EDI giữa các đối tác; chi phí cao, đang hội tụ sang Internet (Ch 14).
+- **Vendor-Managed Inventories (VMI)** (tồn kho do nhà cung cấp quản) — chuyển việc đặt hàng từ khách sang nhà cung cấp (P&G giữ hàng trên kệ); cần chung một phần MAPs để tích hợp thật (Ch 14).
+- **Virtual data warehouse** (kho dữ liệu ảo) — các phần dữ liệu nằm rải ở nhiều server; chiến lược multi-server vừa giữ OLTP ổn định vừa báo cáo nhanh (Quantum: 40.000 bảng → 4.000 business view) (Ch 5).
+- **Waved** (triển khai theo đợt sóng) — triển khai nhiều "đợt sóng", mỗi sóng trao functionality cho một business unit/vùng; nằm giữa big bang và phased (Tektronix) (Ch 11).
+- **Web Forms Technology (WFT)** (công nghệ biểu mẫu web) — khách điền form trên Internet/intranet/extranet; dùng khi ít giao dịch, nhưng gây nhập liệu gấp đôi nếu originator nhiều giao dịch (Ch 14).
