@@ -82,6 +82,7 @@ Danh sách chức năng chuẩn từng module: `<core>/references/erp-modules-ca
 
 ### 4.2 Độ mịn (một chức năng = một file đặc tả)
 
+- **Mỗi luồng chi tiết (FL) của bước 2 được thực hiện bởi ít nhất một chức năng** — ghi FL ở cột "Luồng chi tiết" của srs-overview §3 và ở mục 0 của file chức năng; `ba.py trace` báo FL chưa được phân rã.
 - **Một loại chứng từ = một chức năng** bao trọn vòng đời (tạo, sửa, gửi duyệt, duyệt, hủy, đóng, in…). Không tách "Tạo đơn" và "Sửa đơn" — dùng chung dữ liệu, trạng thái, quy tắc; tách ra sinh mâu thuẫn.
 - Tách chức năng riêng khi một bước có **màn hình, vai trò và logic riêng đáng kể**: "Hộp duyệt chung", "Đối chiếu 3 chiều hóa đơn mua", "Chạy MRP".
 - **Một danh mục = một chức năng**; danh mục rất đơn giản cùng cấu trúc (đơn vị tính, nhóm khách hàng…) có thể gộp, mỗi danh mục một bảng trường.

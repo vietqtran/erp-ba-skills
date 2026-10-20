@@ -29,7 +29,7 @@ def edit(root, rel, old, new):
 
 
 CASES = [
-    ("Placeholder còn sót", PO, "| Quy trình đầu-cuối | BP-01 |", "| Quy trình đầu-cuối | {{BP-…}} |", "lint", "PLACEHOLDER"),
+    ("Placeholder còn sót", PO, "| Luồng tổng quan / luồng chi tiết | BP-01 /", "| Luồng tổng quan / luồng chi tiết | {{BP-…}} /", "lint", "PLACEHOLDER"),
     ("Marker thiếu Q", PO, "- **Mục đích nghiệp vụ:**", "- **Mục đích nghiệp vụ:** [CẦN XÁC NHẬN]", "lint", "MARKER"),
     ("Marker mở trong tài liệu Ready", PO, "- **Mục đích nghiệp vụ:**", "- **Mục đích nghiệp vụ:** [CẦN XÁC NHẬN: Q-001]", "lint", "OPEN-MARKER"),
     ("ID trùng giữa hai file", VEN, "| FR-PUR-01-05 |", "| FR-PUR-02-01 |", "lint", "DUP-ID"),
@@ -45,6 +45,7 @@ CASES = [
     ("N/A không lý do", VEN, "N/A – chức năng không dùng tham số hệ thống.", "N/A", "lint", "NA-REASON"),
     ("REQ không được phủ", "02-requirements/requirement-register.md", "| REQ-022 |", "| REQ-022 |", "trace-req", "REQ-023"),
     ("FN không nguồn", None, None, None, "trace-fn", "FN-PUR-09"),
+    ("Luồng chi tiết chưa phân rã", "03-specification/srs-overview.md", "FL-01-02, FL-01-03, FL-01-04", "FL-01-02, FL-01-04", "trace-fl", "FL-01-03"),
     ("Dòng biên bản chưa xử lý", "00-inputs/meetings/MTG-001-2026-10-06.md", "| L18 | Lan |", "| L19 | Hùng | Câu thử nghiệm chưa được xử lý ở đâu. |\n| L18 | Lan |", "trace-mtg", "L19"),
 ]
 
@@ -74,6 +75,9 @@ def run():
             elif kind == "trace-fn":
                 f = ws / "03-specification/functions/PUR/FN-PUR-09-thu.md"
                 f.write_text("---\ndoc: function-spec\nid: FN-PUR-09\nname: Thử\ntype: Tiện ích\nstatus: Draft\n---\n\n# FN-PUR-09 — Thử\n\n## 0. Thông tin & truy vết\n\nKhông có nguồn.\n", encoding="utf-8")
+            elif kind == "trace-fl":
+                edit(ws, rel, old, new)
+                edit(ws, PO, old, new)
             elif kind == "lint-all":
                 p = ws / rel
                 p.write_text(p.read_text(encoding="utf-8").replace(old, new), encoding="utf-8")

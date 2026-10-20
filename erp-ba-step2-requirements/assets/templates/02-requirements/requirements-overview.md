@@ -67,7 +67,9 @@ flowchart TD
 |---|---|---|---|
 | 1 | {{Excel / phần mềm X}} | {{…}} | {{MTG-… L…}} |
 
-## 5. Bản đồ quy trình tổng thể (TO-BE)
+## 5. Danh sách luồng tổng quan (TO-BE)
+
+<!-- Luồng tổng quan (BP) = quy trình đầu-cuối. Mỗi BP gồm các luồng chi tiết (FL-<BP>-<NN>) liệt kê ở mục 6; bước 3 phân rã mỗi luồng chi tiết thành chức năng. -->
 
 ```mermaid
 flowchart LR
@@ -75,13 +77,13 @@ flowchart LR
     BP02 --> BP03["{{BP-03 Kế toán}}"]
 ```
 
-| ID | Quy trình đầu-cuối | Module | Chuẩn tham chiếu | REQ được phủ |
-|---|---|---|---|---|
-| BP-01 | {{Mua hàng – thanh toán (P2P)}} | {{PUR, INV, AP}} | `erp-ba-core/references/processes/p2p-procure-to-pay.md` | {{REQ-…}} |
+| ID | Luồng tổng quan | Module | Chuẩn tham chiếu | Luồng chi tiết | REQ được phủ |
+|---|---|---|---|---|---|
+| BP-01 | {{Mua hàng – thanh toán (P2P)}} | {{PUR, INV, AP}} | `erp-ba-core/references/processes/p2p-procure-to-pay.md` | {{FL-01-01 … FL-01-05}} | {{REQ-…}} |
 
-## 6. Quy trình nghiệp vụ đầu-cuối
+## 6. Luồng tổng quan và các luồng chi tiết
 
-<!-- Lặp lại mục 6.x cho mỗi BP. -->
+<!-- Lặp lại mục 6.x cho mỗi BP. Mỗi luồng chi tiết là một chuỗi việc có điểm bắt đầu và kết thúc rõ ràng (ví dụ "Lập và duyệt đề xuất vật tư", "Nhận hàng giao thẳng công trường"). Mỗi nhánh nghiệp vụ khách hàng mô tả phải là một luồng chi tiết hoặc nằm trong một luồng chi tiết. Mỗi REQ chức năng thuộc ít nhất một luồng chi tiết. -->
 
 ### 6.1 BP-01 — {{Tên quy trình}}
 
@@ -107,9 +109,11 @@ flowchart LR
     D1 -->|"Không"| A1
 ```
 
-| Bước | Vai trò | Hoạt động | Chứng từ / dữ liệu | Module | REQ |
-|---|---|---|---|---|---|
-| 1 | {{…}} | {{…}} | {{…}} | {{…}} | {{REQ-…}} |
+**Các luồng chi tiết của BP-01:**
+
+| ID | Luồng chi tiết | Vai trò thực hiện | Bắt đầu → Kết thúc | Chứng từ / dữ liệu | Module | REQ | Khác chuẩn (nguồn) |
+|---|---|---|---|---|---|---|---|
+| {{FL-01-01}} | {{…}} | {{…}} | {{…}} | {{…}} | {{…}} | {{REQ-…}} | {{Không / DEC-…}} |
 
 ## 7. Module & phạm vi chức năng sơ bộ
 

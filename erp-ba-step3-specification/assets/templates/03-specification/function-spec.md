@@ -26,7 +26,7 @@ project: {{PROJECT}}
 | Mục | Giá trị |
 |---|---|
 | Nguồn yêu cầu | {{REQ-… — tóm tắt 1 dòng mỗi REQ}} |
-| Quy trình đầu-cuối | {{BP-…}} |
+| Luồng tổng quan / luồng chi tiết | {{BP-… / FL-…}} |
 | Pattern ERP áp dụng | {{P02 Chứng từ giao dịch, P03 Duyệt nhiều cấp, P04 Luồng chứng từ}} |
 | Tham chiếu chuẩn | {{erp-ba-core/references/processes/p2p-procure-to-pay.md §5–§8}} |
 | Chức năng đứng trước (upstream) | {{FN-… — tạo từ chứng từ nào}} |

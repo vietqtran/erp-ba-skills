@@ -56,7 +56,8 @@ Workspace chưa có → hỏi tên dự án và nơi lưu (mặc định `docs/b
 
 5. **Viết tài liệu tổng quan** `requirements-overview.md`:
    - Bối cảnh, mục tiêu đo được (BO), phạm vi trong/ngoài, cơ cấu tổ chức & cấp duyệt, hiện trạng.
-   - Bản đồ quy trình TO-BE và **từng BP**: dựng khung từ quy trình chuẩn rồi điều chỉnh theo REQ; sơ đồ swimlane Mermaid (cú pháp: `<core>/references/diagram-conventions.md`); bảng bước có REQ; dòng "Khác biệt so với chuẩn ERP & lý do" — mọi khác biệt có nguồn, hoặc "Không khác chuẩn". Mỗi nhánh nghiệp vụ khách hàng mô tả (ví dụ giao thẳng công trường / về kho tổng rồi điều chuyển) phải có trong sơ đồ.
+   - **Danh sách luồng tổng quan (§5)**: các quy trình đầu-cuối BP-NN (ví dụ "Cung ứng vật tư công trường"), mỗi BP ghi module, file chuẩn tham chiếu, các luồng chi tiết của nó và REQ được phủ.
+   - **Luồng chi tiết trong từng BP (§6)**: dựng khung từ mục 5 của file quy trình chuẩn rồi điều chỉnh theo REQ; sơ đồ swimlane Mermaid của BP (cú pháp: `<core>/references/diagram-conventions.md`); bảng **luồng chi tiết** FL-<BP>-NN — mỗi luồng là một chuỗi việc có điểm bắt đầu và kết thúc, vai trò thực hiện, chứng từ, module, REQ (ví dụ FL-01-01 "Lập và duyệt đề xuất vật tư", FL-01-02 "Nhận hàng giao thẳng công trường", FL-01-03 "Nhận hàng kho tổng và điều chuyển ra công trường"). Mỗi nhánh nghiệp vụ khách hàng mô tả phải là một luồng chi tiết hoặc nằm trong một luồng chi tiết; mỗi REQ chức năng thuộc ít nhất một luồng chi tiết; khác chuẩn ERP ghi nguồn (REQ/DEC). Bước 3 phân rã mỗi luồng chi tiết thành chức năng — `ba.py trace` báo luồng chưa được phân rã.
    - Bảng 5 thành phần ERP theo module (§8: hệ thống, danh mục, nghiệp vụ, phân quyền & tham số, báo cáo): mỗi ô là REQ hoặc Q — không để trống. Đây là nơi phát hiện sớm việc "thiếu".
    - NFR tổng quan, tích hợp, chuyển đổi dữ liệu, ràng buộc/giả định/rủi ro. Điều khách hàng nói "chưa cần" → ghi ngoài phạm vi kèm nguồn.
 

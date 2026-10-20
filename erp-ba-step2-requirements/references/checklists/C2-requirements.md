@@ -12,7 +12,8 @@ Trả lời **Yes / No / N/A** kèm bằng chứng. Bước 2 đạt khi không 
 | C2-06 | Không có REQ nào do AI/BA tự thêm; đề xuất từ research/chuẩn ERP đều mang [ĐỀ XUẤT → Q-…]? | Mọi REQ có trích dẫn khách hàng | Tất cả |
 | C2-07 | Mâu thuẫn giữa các nguồn/người nói (và yêu cầu trái chuẩn ERP/luật) đã ghi CFL, không tự chọn một bên? | issue-log §4 | Tất cả |
 | C2-08 | Phạm vi trong/ngoài, đơn vị tổ chức áp dụng, giai đoạn đã rõ và có nguồn? | requirements-overview §2 | Tất cả |
-| C2-09 | Mỗi BP có sơ đồ TO-BE swimlane theo khung chuẩn (erp-ba-core/references/processes, industries), bảng bước, chứng từ, vai trò, REQ được phủ? | requirements-overview §6 | Tất cả |
+| C2-09 | Có danh sách luồng tổng quan (BP) ở §5, và mỗi BP có sơ đồ TO-BE swimlane theo khung chuẩn (erp-ba-core/references/processes, industries) cùng bảng luồng chi tiết (FL) ghi vai trò, bắt đầu → kết thúc, chứng từ, module, REQ? | requirements-overview §5–§6 | Tất cả |
+| C2-19 | Mỗi REQ chức năng thuộc ít nhất một luồng chi tiết, và mỗi nhánh nghiệp vụ khách hàng mô tả đều là (hoặc nằm trong) một luồng chi tiết? | Đối chiếu sổ yêu cầu và biên bản với bảng FL | Tất cả |
 | C2-10 | Điểm khác quy trình ERP chuẩn đã nêu rõ kèm lý do/nguồn (khách hàng yêu cầu), hoặc ghi "không khác chuẩn"? | Dòng "Khác biệt so với chuẩn" của mỗi BP | Tất cả |
 | C2-11 | Bảng 5 thành phần ERP (§8) không có ô trống: mỗi ô có REQ hoặc Q? | requirements-overview §8 | Tất cả |
 | C2-12 | Cơ cấu tổ chức, các bên liên quan, cấp duyệt đã xác định (hoặc có Q)? | requirements-overview §3 | Tất cả |

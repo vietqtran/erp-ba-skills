@@ -46,9 +46,9 @@ flowchart LR
 
 <!-- Mỗi module phải có đủ 5 thành phần: chức năng hệ thống/cấu hình, chức năng danh mục cho mọi MD dùng, chức năng nghiệp vụ cho mọi chứng từ, phân quyền & tham số, báo cáo. "Loại": Danh mục / Chứng từ / Phê duyệt / Báo cáo / Cấu hình / Tích hợp / Tác vụ nền / Tiện ích. -->
 
-| FN | Tên chức năng | Module | Loại | Pattern ERP | Nguồn (REQ/FEAT/DEC) | Ưu tiên | Trạng thái đặc tả | File |
-|---|---|---|---|---|---|---|---|---|
-| {{FN-PUR-01}} | {{…}} | {{PUR}} | {{Chứng từ}} | {{P02, P03, P04}} | {{REQ-…}} | {{Must}} | {{Draft}} | `functions/{{PUR}}/{{FN-PUR-01-slug}}.md` |
+| FN | Tên chức năng | Module | Luồng chi tiết | Loại | Pattern ERP | Nguồn (REQ/FEAT/DEC) | Ưu tiên | Trạng thái đặc tả | File |
+|---|---|---|---|---|---|---|---|---|---|
+| {{FN-PUR-01}} | {{…}} | {{PUR}} | {{FL-01-02}} | {{Chứng từ}} | {{P02, P03, P04}} | {{REQ-…}} | {{Must}} | {{Draft}} | `functions/{{PUR}}/{{FN-PUR-01-slug}}.md` |
 
 ### 3.1 Kiểm tra độ phủ 5 thành phần theo module
 

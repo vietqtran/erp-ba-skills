@@ -72,7 +72,7 @@ flowchart TD
 | 1 | Lập đơn mua bằng Excel (mẫu SRC-001), gửi email cho nhà cung cấp | Không kiểm soát được đơn đã giao, chưa giao | MTG-001 L01 |
 | 2 | Danh sách nhà cung cấp trong Excel (SRC-002) | Gõ tay trên đơn, dễ sai | MTG-001 L02 |
 
-## 5. Bản đồ quy trình tổng thể (TO-BE)
+## 5. Danh sách luồng tổng quan (TO-BE)
 
 ```mermaid
 flowchart LR
@@ -80,11 +80,11 @@ flowchart LR
     KHO --> CN["Hóa đơn và công nợ - SRS Công nợ"]
 ```
 
-| ID | Quy trình đầu-cuối | Module | Chuẩn tham chiếu | REQ được phủ |
-|---|---|---|---|---|
-| BP-01 | Đặt hàng nhà cung cấp và theo dõi giao hàng | PUR | `erp-ba-core/references/processes/p2p-procure-to-pay.md` | REQ-001 đến REQ-022 |
+| ID | Luồng tổng quan | Module | Chuẩn tham chiếu | Luồng chi tiết | REQ được phủ |
+|---|---|---|---|---|---|
+| BP-01 | Đặt hàng nhà cung cấp và theo dõi giao hàng | PUR | `erp-ba-core/references/processes/p2p-procure-to-pay.md` | FL-01-01, FL-01-02, FL-01-03, FL-01-04 | REQ-001 đến REQ-022 |
 
-## 6. Quy trình nghiệp vụ đầu-cuối
+## 6. Luồng tổng quan và các luồng chi tiết
 
 ### 6.1 BP-01 — Đặt hàng nhà cung cấp và theo dõi giao hàng
 
@@ -122,14 +122,14 @@ flowchart LR
     A3 --> E(["Đơn hoàn thành hoặc đóng"])
 ```
 
-| Bước | Vai trò | Hoạt động | Chứng từ / dữ liệu | Module | REQ |
-|---|---|---|---|---|---|
-| 1 | Nhân viên mua hàng | Lập đơn, chọn nhà cung cấp và hàng hóa từ danh mục | Đơn mua hàng | PUR | REQ-001, REQ-003, REQ-004, REQ-012 |
-| 2 | Trưởng phòng Mua hàng | Duyệt cấp 1 | Đơn mua hàng | PUR | REQ-005 |
-| 3 | Giám đốc | Duyệt cấp 2 khi tổng thanh toán từ ngưỡng | Đơn mua hàng | PUR | REQ-006 |
-| 4 | Nhân viên mua hàng | In PDF gửi nhà cung cấp | Đơn mua hàng | PUR | REQ-017 |
-| 5 | Thủ kho | Nhận hàng (module Kho), cập nhật số đã nhận về đơn | Phiếu nhập kho | INV | REQ-002, REQ-013 |
-| 6 | Trưởng phòng Mua hàng | Đóng đơn khi nhà cung cấp ngừng giao | Đơn mua hàng | PUR | REQ-014 |
+**Các luồng chi tiết của BP-01:**
+
+| ID | Luồng chi tiết | Vai trò thực hiện | Bắt đầu → Kết thúc | Chứng từ / dữ liệu | Module | REQ | Khác chuẩn (nguồn) |
+|---|---|---|---|---|---|---|---|
+| FL-01-01 | Quản lý nhà cung cấp | Nhân viên mua hàng (tạo, sửa); Trưởng phòng Mua hàng (khóa, mở khóa) | Có nhà cung cấp mới hoặc phát sinh tranh chấp → nhà cung cấp Đang dùng hoặc Khóa | Danh mục nhà cung cấp | PUR | REQ-003, REQ-008, REQ-009, REQ-010 | Không |
+| FL-01-02 | Lập và duyệt đơn mua hàng | Nhân viên mua hàng; Trưởng phòng Mua hàng; Giám đốc; Kế toán (xem) | Có nhu cầu đặt hàng → đơn Đã duyệt hoặc Từ chối | Đơn mua hàng | PUR | REQ-001, REQ-003, REQ-004, REQ-005, REQ-006, REQ-007, REQ-011, REQ-012, REQ-015 | Không có bước đề nghị mua hàng trước đơn (DEC-001) |
+| FL-01-03 | Gửi đơn cho nhà cung cấp | Nhân viên mua hàng | Đơn Đã duyệt → file PDF gửi nhà cung cấp | Đơn đặt hàng PDF | PUR | REQ-017 | Không |
+| FL-01-04 | Theo dõi giao hàng và đóng đơn | Thủ kho (module Kho); Hệ thống; Trưởng phòng Mua hàng; Nhân viên mua hàng | Phiếu nhập kho từ đơn được ghi sổ → đơn Hoàn thành hoặc Đã đóng | Phiếu nhập kho, đơn mua hàng, báo cáo tình hình thực hiện | PUR, INV | REQ-002, REQ-013, REQ-014, REQ-016 | Không |
 
 ## 7. Module & phạm vi chức năng sơ bộ
 

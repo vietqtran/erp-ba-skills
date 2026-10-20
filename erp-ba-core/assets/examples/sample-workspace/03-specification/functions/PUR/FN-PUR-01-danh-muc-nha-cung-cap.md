@@ -18,7 +18,7 @@ project: Minh An ERP
 | Mục | Giá trị |
 |---|---|
 | Nguồn yêu cầu | REQ-003 chọn nhà cung cấp từ danh mục · REQ-008 bắt buộc mã số thuế · REQ-009 không trùng mã số thuế · REQ-010 khóa nhà cung cấp tranh chấp · DEC-017 ai tạo, sửa, khóa · SRC-002 các cột dữ liệu hiện có |
-| Quy trình đầu-cuối | BP-01 |
+| Luồng tổng quan / luồng chi tiết | BP-01 / FL-01-01 |
 | Pattern ERP áp dụng | P01 Danh mục, P12 Nhập Excel, P13 Danh sách & tìm kiếm, P14 Nhật ký (`erp-ba-core/references/design-patterns.md`) |
 | Tham chiếu chuẩn | `erp-ba-core/references/processes/p2p-procure-to-pay.md` §3 |
 | Chức năng đứng trước (upstream) | Không có |

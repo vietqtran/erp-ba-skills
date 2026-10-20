@@ -90,6 +90,7 @@ ID_PATTERNS = {
     "REQ": r"REQ-\d{3,}",
     "BO": r"BO-\d{2,}",
     "BP": r"BP-\d{2,}",
+    "FL": r"FL-\d{2,}-\d{2,}",
     "MOD": r"MOD-[A-Z]{2,5}",
     "FN": r"FN-[A-Z]{2,5}-\d{2,}",
     "FR": r"FR-[A-Z]{2,5}-\d{2,}-\d{2,}",
@@ -137,6 +138,7 @@ DEF_LOC = {
     "REQ": ["02-requirements/requirement-register.md"],
     "BO": ["02-requirements/requirements-overview.md"],
     "BP": ["02-requirements/requirements-overview.md"],
+    "FL": ["02-requirements/requirements-overview.md"],
     "Q": ["02-requirements/issue-log.md"],
     "ASM": ["02-requirements/issue-log.md"],
     "DEC": ["02-requirements/issue-log.md"],
@@ -976,6 +978,16 @@ def trace(root):
             res["errors"].append(f"{fn}: có file đặc tả nhưng chưa có trong danh sách chức năng srs-overview §3")
     for fn in sorted(listed - set(res["fn"])):
         res["errors"].append(f"{fn}: có trong danh sách chức năng srs-overview §3 nhưng chưa có file đặc tả")
+
+    # Luồng chi tiết (FL) phải được phân rã thành chức năng ở bước 3
+    ov = by_rel.get("02-requirements/requirements-overview.md")
+    if ov and fns:
+        spec_text = "\n".join(dd.text for dd in docs if dd.rel.startswith(SPEC + "/"))
+        for t in ov.tables:
+            for _, cells in t["rows"]:
+                c0 = cells[0].strip("*` ") if cells else ""
+                if c0.startswith("FL-") and ID_RE.fullmatch(c0) and not re.search(r"(?<![\w-])" + re.escape(c0) + r"(?![\w-])", spec_text):
+                    res["errors"].append(f"{c0}: luồng chi tiết chưa được phân rã thành chức năng nào trong 03-specification — THIẾU ({(cells[1] if len(cells) > 1 else '')[:60]})")
 
     for r, info in res["req"].items():
         if "loại" in info["status"].lower():

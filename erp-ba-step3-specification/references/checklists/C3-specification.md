@@ -5,6 +5,7 @@ Trả lời **Yes / No / N/A** kèm bằng chứng. Áp dụng cho srs-overview,
 | ID | Câu hỏi (Yes/No) | Cách kiểm | Áp dụng cho |
 |---|---|---|---|
 | C3-01 | Mọi REQ còn hiệu lực (không "Bị loại") được phủ bởi ít nhất một FN/catalog/NFR? | `ba.py trace`: 0 REQ chưa phủ | Tất cả |
+| C3-18 | Mọi luồng chi tiết (FL) ở requirements-overview §6 được phân rã thành ít nhất một chức năng? | `ba.py trace`: 0 FL chưa phân rã | Tất cả |
 | C3-02 | Mọi FN có nguồn REQ, hoặc FEAT/đề xuất đã có DEC xác nhận (không có chức năng "tự thêm")? | `ba.py trace`: 0 FN không nguồn, 0 FN chỉ dựa FEAT chưa có DEC | Tất cả |
 | C3-03 | Mỗi module có đủ 5 thành phần: cấu hình/hệ thống, chức năng cho mọi danh mục dùng tới, chức năng cho mọi loại chứng từ, phân quyền & tham số, báo cáo? | srs-overview §3.1 không có ô trống không giải thích | Tất cả |
 | C3-04 | Mỗi MD trong catalog có FN quản lý hoặc ghi nguồn đồng bộ; mỗi MD được FN dùng tới đều có trong catalog? | master-data.md ↔ mục 0 các FN | Tất cả |

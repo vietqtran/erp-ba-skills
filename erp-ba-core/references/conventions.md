@@ -61,7 +61,8 @@ Không tự đổi tên/di chuyển các file trên: script dựa vào đường
 | FEAT | Tính năng ứng viên từ research | FEAT-<MOD>-NN | FEAT-PUR-07 |
 | REQ | Yêu cầu gốc của khách hàng (nguyên tử) | REQ-NNN | REQ-031 |
 | BO | Mục tiêu kinh doanh đo được | BO-NN | BO-01 |
-| BP | Quy trình nghiệp vụ đầu-cuối | BP-NN | BP-02 |
+| BP | Luồng tổng quan (quy trình nghiệp vụ đầu-cuối) | BP-NN | BP-02 |
+| FL | Luồng chi tiết thuộc một BP | FL-<BP>-NN | FL-02-03 |
 | MOD | Module | MOD-<MOD> | MOD-PUR |
 | FN | Chức năng (1 file đặc tả) | FN-<MOD>-NN | FN-PUR-03 |
 | FR | Yêu cầu chức năng (thuộc 1 FN) | FR-<MOD>-NN-NN | FR-PUR-03-02 |
@@ -100,7 +101,7 @@ Một ID được **định nghĩa** khi nó là ô đầu tiên của một dò
 | SRC, MTG | `00-inputs/source-register.md` (MTG còn có file biên bản riêng: tiêu đề `# MTG-NNN …`) |
 | FEAT | `01-research/feature-catalog.md` |
 | REQ | `02-requirements/requirement-register.md` |
-| BO, BP | `02-requirements/requirements-overview.md` |
+| BO, BP, FL | `02-requirements/requirements-overview.md` |
 | Q, ASM, DEC, CFL, CHG | `02-requirements/issue-log.md` |
 | MOD, BR-GEN, NFR-<CAT> | `03-specification/srs-overview.md` |
 | ROLE, SOD | `03-specification/catalogs/roles-permissions.md` |

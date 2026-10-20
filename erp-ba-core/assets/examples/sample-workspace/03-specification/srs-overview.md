@@ -40,11 +40,11 @@ flowchart LR
 
 ## 3. Danh sách chức năng (Function breakdown)
 
-| FN | Tên chức năng | Module | Loại | Pattern ERP | Nguồn (REQ/FEAT/DEC) | Ưu tiên | Trạng thái đặc tả | File |
-|---|---|---|---|---|---|---|---|---|
-| FN-PUR-01 | Danh mục nhà cung cấp | PUR | Danh mục | P01 | REQ-003, REQ-008, REQ-009, REQ-010 | Must | Ready | `functions/PUR/FN-PUR-01-danh-muc-nha-cung-cap.md` |
-| FN-PUR-02 | Đơn mua hàng | PUR | Chứng từ | P02, P03, P04, P06 | REQ-001, REQ-002, REQ-005, REQ-006, REQ-015 | Must | Ready | `functions/PUR/FN-PUR-02-don-mua-hang.md` |
-| FN-PUR-03 | Báo cáo tình hình thực hiện đơn mua hàng | PUR | Báo cáo | P13 | REQ-002, REQ-016 | Must | Ready | `functions/PUR/FN-PUR-03-bao-cao-tinh-hinh-thuc-hien-don-mua.md` |
+| FN | Tên chức năng | Module | Luồng chi tiết | Loại | Pattern ERP | Nguồn (REQ/FEAT/DEC) | Ưu tiên | Trạng thái đặc tả | File |
+|---|---|---|---|---|---|---|---|---|---|
+| FN-PUR-01 | Danh mục nhà cung cấp | PUR | FL-01-01 | Danh mục | P01 | REQ-003, REQ-008, REQ-009, REQ-010 | Must | Ready | `functions/PUR/FN-PUR-01-danh-muc-nha-cung-cap.md` |
+| FN-PUR-02 | Đơn mua hàng | PUR | FL-01-02, FL-01-03, FL-01-04 | Chứng từ | P02, P03, P04, P06 | REQ-001, REQ-002, REQ-005, REQ-006, REQ-015 | Must | Ready | `functions/PUR/FN-PUR-02-don-mua-hang.md` |
+| FN-PUR-03 | Báo cáo tình hình thực hiện đơn mua hàng | PUR | FL-01-04 | Báo cáo | P13 | REQ-002, REQ-016 | Must | Ready | `functions/PUR/FN-PUR-03-bao-cao-tinh-hinh-thuc-hien-don-mua.md` |
 
 ### 3.1 Kiểm tra độ phủ 5 thành phần theo module
 

@@ -18,7 +18,7 @@ project: Minh An ERP
 | Mục | Giá trị |
 |---|---|
 | Nguồn yêu cầu | REQ-001 lập đơn trên hệ thống · REQ-002 biết đơn đã giao/chưa giao · REQ-003, REQ-004 chọn nhà cung cấp, hàng hóa từ danh mục · REQ-005, REQ-006 duyệt theo ngưỡng 100 triệu · REQ-007 kế toán chỉ xem · REQ-010 chặn nhà cung cấp bị khóa · REQ-011 phạm vi chi nhánh · REQ-012 ngoại tệ có tỷ giá · REQ-013, REQ-014 giao thiếu và đóng đơn · REQ-015 sửa sau duyệt phải duyệt lại · REQ-017 in PDF · REQ-018, REQ-020, REQ-021 NFR |
-| Quy trình đầu-cuối | BP-01 |
+| Luồng tổng quan / luồng chi tiết | BP-01 / FL-01-02, FL-01-03, FL-01-04 |
 | Pattern ERP áp dụng | P02 Chứng từ giao dịch, P03 Duyệt nhiều cấp, P04 Luồng chứng từ, P06 Đánh số, P10 Thông báo, P11 Mẫu in (`erp-ba-core/references/design-patterns.md`) |
 | Tham chiếu chuẩn | `erp-ba-core/references/processes/p2p-procure-to-pay.md` §5–§7 |
 | Chức năng đứng trước (upstream) | Không có — đơn lập trực tiếp (DEC-001); dùng danh mục từ FN-PUR-01 |
