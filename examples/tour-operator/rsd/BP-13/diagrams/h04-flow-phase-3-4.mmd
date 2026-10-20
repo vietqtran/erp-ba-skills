@@ -1,0 +1,26 @@
+flowchart TD
+    classDef kd fill:#ffffff,stroke:#333,color:#111
+    classDef tp fill:#f4ecfb,stroke:#7e57c2,color:#3b1f63
+    classDef ht fill:#e8f1fb,stroke:#4a7ab5,color:#14365d
+    classDef dh fill:#fff1e6,stroke:#e07b39,color:#6b3410
+    classDef kt fill:#e9f7f3,stroke:#2e9c7a,color:#124d3c
+    classDef dec fill:#fff4d6,stroke:#c9a227,color:#5a4500
+    classDef stop fill:#eaf6ea,stroke:#3c8d3c,color:#1d4d1d
+    classDef bad fill:#fdecec,stroke:#c0504d,color:#6b1f1d
+    OK(["Phiếu đã duyệt"]):::stop
+    B9["9. Điều hành: Gửi NCC sửa hoặc hủy dịch vụ, ghi phí phạt"]:::dh
+    B10["10. Hệ thống: Cập nhật booking, chỗ, dự toán, lịch thu"]:::ht
+    D3{"Đã xuất hóa đơn cho phần thay đổi?"}:::dec
+    B11["11. Kế toán công nợ: Lập hóa đơn điều chỉnh hoặc thay thế"]:::kt
+    B12["12. Kế toán trưởng: Duyệt, ký số hóa đơn"]:::kt
+    D4{"Phải hoàn tiền cho khách?"}:::dec
+    B13["13. Kế toán trưởng: Duyệt hoàn tiền"]:::kt
+    B14["14. Kế toán công nợ: Lập lệnh chi về tài khoản gốc"]:::kt
+    B15["15. Kinh doanh: Gửi xác nhận cuối cho khách"]:::kd
+    XONG(["Hoàn tất"]):::stop
+    OK --> B9 --> B10 --> D3
+    D3 -->|"Có"| B11 --> B12 --> D4
+    D3 -->|"Không"| D4
+    D4 -->|"Có"| B13 --> B14 --> B15
+    D4 -->|"Không"| B15
+    B15 --> XONG

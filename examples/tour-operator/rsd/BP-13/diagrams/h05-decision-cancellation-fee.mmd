@@ -1,0 +1,21 @@
+flowchart TD
+    classDef sys fill:#e8f1fb,stroke:#4a7ab5,color:#14365d
+    classDef dec fill:#fff4d6,stroke:#c9a227,color:#5a4500
+    classDef stop fill:#eaf6ea,stroke:#3c8d3c,color:#1d4d1d
+    classDef bad fill:#fdecec,stroke:#c0504d,color:#6b1f1d
+    S(["Yêu cầu hủy"]):::stop --> C1{"Hợp đồng có bảng phí hủy?"}:::dec
+    C1 -->|"Không"| M1["Dừng, báo Quản trị hệ thống"]:::bad
+    C1 -->|"Có"| C2{"Chuyến đã khởi hành?"}:::dec
+    C2 -->|"Rồi"| M2["Dừng, xử lý trong quy trình thực hiện tour"]:::bad
+    C2 -->|"Chưa"| C3{"Công ty hủy chuyến, hoặc sự cố trong tour?"}:::dec
+    C3 -->|"Đúng"| F0["Phí hủy bằng 0"]:::sys
+    C3 -->|"Không"| F1["Phí hủy = Giá trị phần hủy x Tỷ lệ theo số ngày"]:::sys
+    C4{"Kinh doanh có đề nghị giảm phí?"}:::dec
+    F0 --> C4
+    F1 --> C4
+    C4 -->|"Không"| A1(["Phiếu đã duyệt với phí chuẩn"]):::stop
+    C4 -->|"Có"| C5{"Mức đề nghị hợp lệ và có lý do?"}:::dec
+    C5 -->|"Không"| M3["Báo lỗi, giữ phiếu Nháp"]:::bad
+    C5 -->|"Có"| C6{"Vượt hạn mức Trưởng phòng, hoặc người lập là Trưởng phòng?"}:::dec
+    C6 -->|"Có"| A2(["Chờ Ban Giám đốc duyệt"]):::stop
+    C6 -->|"Không"| A3(["Chờ Trưởng phòng KD duyệt"]):::stop

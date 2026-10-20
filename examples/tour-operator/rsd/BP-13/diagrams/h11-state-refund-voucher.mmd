@@ -1,0 +1,23 @@
+stateDiagram-v2
+    state "Nháp" as DRAFT
+    state "Chờ duyệt" as PENDING
+    state "Trả lại để sửa" as RETURNED
+    state "Đã duyệt" as APPROVED
+    state "Đã gửi ngân hàng" as SENT
+    state "Đã chi" as POSTED
+    state "Đã hủy" as CANCELLED
+    state "Đã đảo" as REVERSED
+    [*] --> DRAFT : Hệ thống tạo
+    DRAFT --> PENDING : Hóa đơn đã xong hoặc không cần
+    PENDING --> APPROVED : Duyệt
+    PENDING --> RETURNED : Trả lại
+    RETURNED --> PENDING : Gửi duyệt lại
+    APPROVED --> SENT : Lập lệnh chi
+    SENT --> POSTED : Ngân hàng báo thành công
+    SENT --> APPROVED : Ngân hàng trả lại lệnh
+    DRAFT --> CANCELLED : Hủy
+    APPROVED --> CANCELLED : Hủy trước khi gửi
+    POSTED --> REVERSED : Tiền bị trả về
+    POSTED --> [*]
+    REVERSED --> [*]
+    CANCELLED --> [*]

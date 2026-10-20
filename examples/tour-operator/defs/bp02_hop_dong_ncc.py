@@ -1,0 +1,135 @@
+from bpmn_gen import N, F, M, A
+import _common  # noqa: F401 — đăng ký danh mục dự án
+from bpmn_gen import lane, pool, book, core, bp, call_name, title
+
+PROCESS = dict(
+    id='BP-02',
+    name='Hợp đồng nhà cung cấp, bảng giá theo mùa và quỹ chỗ (allotment)',
+    objective='Có giá mua đã thỏa thuận và quỹ chỗ đã cam kết với NCC trước mùa bán, để giá thành tour và chỗ bán ra '
+              'đều lấy từ một nguồn đã duyệt.',
+    trigger='Kế hoạch S&OP cần nguồn cung cho mùa tới, hoặc hợp đồng/bảng giá hiện tại sắp hết hiệu lực.',
+    outcome='Hợp đồng NCC hiệu lực; bảng giá theo mùa và quỹ chỗ (số phòng/ghế, hạn trả chỗ) đã kích hoạt trong hệ thống; '
+            'khoản trả trước/ký quỹ (nếu có) đã chuyển sang thanh toán.',
+    scope='Khách sạn, nhà xe, nhà hàng, điểm tham quan, hãng bay (block ghế), HDV địa phương. Gửi yêu cầu báo giá, '
+          'so sánh, đàm phán, duyệt, ký, kích hoạt bảng giá và quỹ chỗ.',
+    out_of_scope='Tạo NCC mới trong danh mục (%s); trả chỗ chưa bán theo hạn (%s); đặt dịch vụ cho từng đoàn (%s); '
+                 'chi tiền trả trước (%s).' % (bp('BP-01'), bp('BP-07'), bp('BP-08'), bp('BP-12')),
+    modules=['Mua hàng – hợp đồng NCC (PUR)', 'Kho dịch vụ & bảng giá', 'Công nợ phải trả (AP)'],
+    erp_standard='Procure-to-Pay, phần nguồn cung: yêu cầu báo giá → so sánh, chọn NCC → hợp đồng khung → kích hoạt giá. '
+                 'Quỹ chỗ tương ứng Supplier Scheduling (hợp đồng dài hạn + lịch giao).',
+    upstream=[bp('BP-04', 'kế hoạch nguồn cung đã duyệt'), bp('BP-01', 'NCC đã có trong danh mục')],
+    downstream=[bp('BP-03', 'giá thành tour'), bp('BP-07', 'trả chỗ'), bp('BP-08', 'đặt dịch vụ'),
+                bp('BP-12', 'trả trước NCC')],
+    pool_name='Công ty lữ hành — Hợp đồng NCC',
+    lanes=[
+        lane('PROD', 'Xác định nhu cầu, gửi yêu cầu báo giá, đàm phán, soạn và ký hợp đồng.'),
+        lane('PROD_MGR', 'Duyệt hợp đồng và bảng giá trong hạn mức.'),
+        lane('DIR', 'Duyệt hợp đồng vượt hạn mức hoặc có trả trước / quỹ chỗ cam kết cứng.'),
+        lane('SYS', 'Định tuyến duyệt theo hạn mức; kích hoạt bảng giá theo mùa và quỹ chỗ.'),
+    ],
+    pools=[pool('NCC', 'top')],
+    nodes=[
+        N('S1', 'start', 'PROD', 0, 'Chuẩn bị mùa mới hoặc hợp đồng sắp hết hạn', ev='timer'),
+        N('T1', 'user', 'PROD', 1, 'Xác định nhu cầu: điểm đến, hạng dịch vụ, sản lượng',
+          doc='Lấy sản lượng dự kiến theo tuyến và tháng từ kế hoạch S&OP đã duyệt.'),
+        N('T2', 'send', 'PROD', 2, 'Gửi yêu cầu báo giá cho các NCC',
+          docs='Yêu cầu báo giá (RFQ)'),
+        N('R1', 'receive', 'PROD', 3, 'Nhận báo giá theo mùa và điều kiện',
+          doc='Giá theo mùa và hạng phòng/loại xe, phụ thu, chính sách trẻ em, điều kiện hủy, hạn trả chỗ, điều khoản thanh toán.'),
+        N('T3', 'user', 'PROD', 4, 'So sánh, đàm phán, chọn NCC',
+          doc='Bảng so sánh tối thiểu 2–3 báo giá cho dịch vụ trọng yếu; tham chiếu điểm đánh giá NCC và lịch sử sự cố.',
+          ctrl=['C02-01']),
+        N('M1', 'xor', 'PROD', 5, ''),
+        N('T4', 'user', 'PROD', 6, 'Soạn hợp đồng, bảng giá theo mùa, quỹ chỗ',
+          doc='Bảng giá theo mùa; quỹ chỗ (số phòng/ghế theo ngày), hạn trả chỗ (release), chính sách hủy NCC, '
+              'điều khoản trả trước/ký quỹ.',
+          docs='Hợp đồng NCC: DRAFT → PENDING'),
+        N('T5', 'user', 'PROD_MGR', 7, 'Duyệt hợp đồng và bảng giá', ctrl=['C02-02']),
+        N('G1', 'xor', 'PROD_MGR', 8, 'Duyệt?'),
+        N('G2', 'xor', 'SYS', 9, 'Vượt hạn mức hoặc có trả trước?'),
+        N('T6', 'user', 'DIR', 10, 'Duyệt hợp đồng', ctrl=['C02-03']),
+        N('M2', 'xor', 'SYS', 11, ''),
+        N('T7', 'send', 'PROD', 12, 'Ký hợp đồng với NCC', docs='Hợp đồng NCC: APPROVED'),
+        N('T8', 'service', 'SYS', 13, 'Kích hoạt bảng giá theo mùa và quỹ chỗ',
+          doc='Bảng giá chỉ đọc với Kinh doanh/Điều hành; quỹ chỗ ghi số lượng theo ngày và hạn trả chỗ; '
+              'đặt cảnh báo hết hạn hợp đồng.',
+          docs='Hợp đồng: IN_PROGRESS (hiệu lực); Quỹ chỗ: APPROVED', ctrl=['C02-04', 'C02-05']),
+        N('G3', 'xor', 'SYS', 14, 'Có trả trước hoặc ký quỹ?'),
+        N('C1', 'call', 'PROD', 15, call_name('BP-12'), called='BP-12',
+          doc='Lập đề nghị thanh toán trước / ký quỹ theo hợp đồng.'),
+        N('M3', 'xor', 'SYS', 16, ''),
+        N('E1', 'end', 'SYS', 17, 'Giá và chỗ sẵn sàng cho thiết kế tour'),
+    ],
+    flows=[
+        F('S1', 'T1'), F('T1', 'T2'), F('T2', 'R1'), F('R1', 'T3'), F('T3', 'M1'), F('M1', 'T4'), F('T4', 'T5'),
+        F('T5', 'G1'),
+        F('G1', 'M1', 'Trả lại', loop='top'),
+        F('G1', 'G2', 'Đồng ý', default=True),
+        F('G2', 'T6', 'Có'),
+        F('G2', 'M2', 'Không', default=True),
+        F('T6', 'M2'),
+        F('M2', 'T7'), F('T7', 'T8'), F('T8', 'G3'),
+        F('G3', 'C1', 'Có'),
+        F('G3', 'M3', 'Không', default=True),
+        F('C1', 'M3'), F('M3', 'E1'),
+    ],
+    messages=[
+        M('T2', 'NCC', 'Yêu cầu báo giá'),
+        M('NCC', 'R1', 'Báo giá'),
+        M('T7', 'NCC', 'Hợp đồng', dx=-30),
+        M('NCC', 'T7', 'Hợp đồng đã ký', dx=30),
+    ],
+    annotations=[
+        A('N1', 'T3', 'Tối thiểu 2–3 báo giá; chấm điểm NCC (C02-01)', 'PROD_MGR', 4),
+        A('N2', 'T5', 'Người đàm phán không tự duyệt hợp đồng của mình (C02-02)', 'PROD_MGR', 6),
+        A('N3', 'T8', 'Giá NCC chỉ vào hệ thống qua hợp đồng đã duyệt (C02-04)', 'DIR', 13, dx=20, w=135),
+    ],
+    controls=[
+        ('C02-01', 'Dịch vụ trọng yếu phải có tối thiểu 2–3 báo giá và bảng so sánh lưu kèm hợp đồng; NCC được chấm điểm định kỳ '
+                   '(chất lượng, sự cố, đúng hẹn), NCC bị khóa thì không chọn được.',
+         'Phòng ngừa · Báo cáo', 'Parthasarathy ch03 (vendor evaluation); erp-ba-core p2p §5'),
+        ('C02-02', 'Người đàm phán/soạn hợp đồng không được duyệt hợp đồng đó; duyệt theo hạn mức giá trị cam kết.',
+         'Phân quyền (SoD)', 'erp-ba-core p2p §7 BR-PUR-04'),
+        ('C02-03', 'Hợp đồng vượt hạn mức Trưởng phòng, có trả trước/ký quỹ, hoặc quỹ chỗ cam kết cứng (không được trả chỗ) phải Ban Giám đốc duyệt.',
+         'Phòng ngừa', 'Elbardan ch08 (approval hierarchy)'),
+        ('C02-04', 'Bảng giá NCC chỉ được kích hoạt từ hợp đồng đã duyệt, có hiệu lực theo mùa; Kinh doanh và Điều hành chỉ đọc.',
+         'Phòng ngừa · Phân quyền', "O'Leary ch04; Elbardan ch07"),
+        ('C02-05', 'Cảnh báo hợp đồng/bảng giá sắp hết hiệu lực và quỹ chỗ sắp tới hạn trả.',
+         'Báo cáo (giám sát liên tục)', 'Elbardan ch06'),
+    ],
+    documents=[
+        ('Yêu cầu báo giá & bảng so sánh', 'DRAFT → COMPLETED', 'Lưu kèm hợp đồng làm bằng chứng lựa chọn.'),
+        ('Hợp đồng NCC', 'DRAFT → PENDING → RETURNED / APPROVED → IN_PROGRESS (hiệu lực) → CLOSED (hết hạn)', ''),
+        ('Bảng giá NCC theo mùa', 'DRAFT → APPROVED (hiệu lực theo ngày)', 'Theo hạng phòng/loại xe × mùa; ngoại tệ nếu có.'),
+        ('Quỹ chỗ (allotment)', 'APPROVED → PARTIAL (đang bán) → COMPLETED (hết chỗ) / CLOSED (đã trả chỗ)', 'Số lượng theo ngày, hạn trả chỗ.'),
+    ],
+    postings=[
+        ('Trả trước tiền phòng/ghế cho NCC', '331 (chi tiết NCC)', '112', 'Qua BP-12; cấn trừ khi ghi hóa đơn.'),
+        ('Ký quỹ đảm bảo quỹ chỗ dài hạn', '244', '112', 'Hoàn lại khi hết hợp đồng hoặc cấn trừ theo thỏa thuận.'),
+    ],
+    parameters=[
+        ('Hạn mức duyệt hợp đồng', 'Trưởng phòng Sản phẩm / Ban Giám đốc theo giá trị cam kết năm', '≤ 500 triệu / > 500 triệu'),
+        ('Số báo giá tối thiểu', 'Cho dịch vụ trọng yếu', '3'),
+        ('Cảnh báo hết hạn hợp đồng', 'Số ngày trước khi hết hiệu lực', '60 ngày'),
+        ('Hạn trả chỗ mặc định', 'Số ngày trước ngày sử dụng', '7 ngày'),
+    ],
+    kpis=[
+        ('Tỷ lệ dịch vụ trọng yếu có hợp đồng giá', 'Số dịch vụ có hợp đồng / tổng dịch vụ trọng yếu', '≥ 90%'),
+        ('Tỷ lệ sử dụng quỹ chỗ', 'Chỗ đã bán / chỗ đã cam kết', 'Theo dõi theo NCC và mùa'),
+        ('Chênh lệch giá mua thực tế với hợp đồng', 'Từ BP-08 và BP-12', 'Tiến tới 0'),
+    ],
+    references=[
+        book('W', 'ch17-appendix-a-fundamentals-of-erp.md',
+             'Supplier scheduling thay chu trình đơn mua lẻ bằng hợp đồng dài hạn (giá, điều khoản, tổng lượng) cộng lịch gửi NCC.'),
+        book('W', 'ch12-supply-chain-integration-phase-ii.md', 'Tích hợp chuỗi cung ứng: chia sẻ kế hoạch với NCC, phản hồi khi không đáp ứng được.'),
+        book('P', 'ch03-erp-modules.md', 'Module MM: Purchasing, Vendor evaluation, Invoice verification.'),
+        book('P', 'ch07-supply-chain-management.md', 'Ba cấp quyết định chuỗi cung ứng: chiến lược, chiến thuật, tác nghiệp.'),
+        book('E', 'ch07-case-study-2-national-company.md', 'Kiểm soát phòng ngừa: chặn đặt hàng NCC từng giao lỗi.'),
+        core('processes/p2p-procure-to-pay.md', '§5, §7', 'yêu cầu báo giá → so sánh → hợp đồng khung; hạn mức duyệt BR-PUR-04.'),
+    ],
+    questions=[
+        'Hạn mức duyệt hợp đồng theo giá trị cam kết là bao nhiêu? Có phân biệt NCC trong nước và nước ngoài?',
+        'NCC nào có quỹ chỗ cam kết cứng (phải trả tiền dù không bán được)?',
+        'Hợp đồng khách sạn quốc tế tính bằng ngoại tệ: dùng tỷ giá nào khi tính giá thành tour?',
+    ],
+)

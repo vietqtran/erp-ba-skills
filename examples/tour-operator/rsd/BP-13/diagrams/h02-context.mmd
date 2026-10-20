@@ -1,0 +1,27 @@
+flowchart LR
+    classDef ext fill:#f3f3f3,stroke:#888,color:#222
+    classDef mod fill:#e8f1fb,stroke:#4a7ab5,color:#14365d
+    classDef bp fill:#fff,stroke:#999,stroke-dasharray: 4 3,color:#333
+    KH(["Khách hàng, Đại lý, OTA"]):::ext
+    NCC(["Nhà cung cấp dịch vụ"]):::ext
+    NH(["Ngân hàng, Cổng thanh toán"]):::ext
+    CQT(["Cơ quan thuế"]):::ext
+    QT["Quy trình khác: hủy chuyến, sự cố, quá hạn thanh toán, khiếu nại"]:::bp
+    subgraph ERP["Hệ thống ERP"]
+        SAL["Bán hàng: phiếu yêu cầu, booking, chỗ"]:::mod
+        OPS["Điều hành: dịch vụ đã đặt với NCC"]:::mod
+        AR["Công nợ: lịch thu tiền"]:::mod
+        TAX["Hóa đơn điện tử"]:::mod
+        CB["Tiền: phiếu chi hoàn tiền"]:::mod
+    end
+    KH -->|"Yêu cầu đổi, hủy và xác nhận"| SAL
+    SAL -->|"Phương án, xác nhận cuối"| KH
+    QT -->|"Chuyển yêu cầu"| SAL
+    SAL --> OPS
+    OPS -->|"Yêu cầu sửa, hủy dịch vụ"| NCC
+    NCC -->|"Xác nhận, phí phạt"| OPS
+    SAL --> AR
+    SAL --> TAX
+    TAX -->|"Hóa đơn điều chỉnh"| CQT
+    SAL --> CB
+    CB -->|"Lệnh chi hoàn tiền"| NH

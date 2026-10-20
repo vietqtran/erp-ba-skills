@@ -1,0 +1,27 @@
+flowchart TD
+    classDef kd fill:#ffffff,stroke:#333,color:#111
+    classDef tp fill:#f4ecfb,stroke:#7e57c2,color:#3b1f63
+    classDef ht fill:#e8f1fb,stroke:#4a7ab5,color:#14365d
+    classDef dh fill:#fff1e6,stroke:#e07b39,color:#6b3410
+    classDef kt fill:#e9f7f3,stroke:#2e9c7a,color:#124d3c
+    classDef dec fill:#fff4d6,stroke:#c9a227,color:#5a4500
+    classDef stop fill:#eaf6ea,stroke:#3c8d3c,color:#1d4d1d
+    classDef bad fill:#fdecec,stroke:#c0504d,color:#6b1f1d
+    B1(["1. Kinh doanh: Tiếp nhận yêu cầu của khách"]):::kd
+    B2["2. Kinh doanh: Lập phiếu yêu cầu, đính kèm xác nhận của khách"]:::kd
+    B3{"3. Hệ thống: Đổi hay hủy?"}:::dec
+    B4["4. Hệ thống: Kiểm tra chỗ, tính giá mới và chênh lệch"]:::ht
+    B6["6. Kinh doanh: Gửi phương án cho khách"]:::kd
+    B7{"7. Kinh doanh ghi phản hồi: Khách đồng ý?"}:::dec
+    K1(["Giữ nguyên booking, phiếu bị từ chối"]):::bad
+    B5["5. Hệ thống: Tính phí hủy theo số ngày trước khởi hành"]:::ht
+    D1{"Có đề nghị giảm phí?"}:::dec
+    B8["8. Trưởng phòng KD: Duyệt giảm phí hủy"]:::tp
+    OK(["Phiếu đã duyệt, chuyển giai đoạn thực hiện"]):::stop
+    B1 --> B2 --> B3
+    B3 -->|"Đổi hoặc đền bù"| B4 --> B6 --> B7
+    B7 -->|"Đồng ý"| OK
+    B7 -->|"Không, hoặc quá hạn"| K1
+    B3 -->|"Hủy"| B5 --> D1
+    D1 -->|"Có"| B8 --> OK
+    D1 -->|"Không"| OK

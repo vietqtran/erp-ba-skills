@@ -1,0 +1,16 @@
+{
+  "_note": "Copy to ~/.config/rsd-kit/config.json (never commit it). via: auto | api | mcp | manual. Fill in only what you use.",
+  "google": {
+    "via": "auto",
+    "oauth_client": "~/.config/rsd-kit/google-oauth-client.json",
+    "mcp": "http://127.0.0.1:7717/mcp"
+  },
+  "confluence": {
+    "via": "auto",
+    "site": "https://your-company.atlassian.net",
+    "email": "you@your-company.com",
+    "api_token": "create at https://id.atlassian.com/manage-profile/security/api-tokens",
+    "mcp": "npx -y mcp-remote https://mcp.atlassian.com/v2/mcp",
+    "space": "DEFAULT_SPACE_KEY_OR_ID"
+  }
+}

@@ -1,0 +1,123 @@
+from bpmn_gen import N, F, M, A
+import _common  # noqa: F401 — đăng ký danh mục dự án
+from bpmn_gen import lane, pool, book, core, bp, call_name, title
+
+PROCESS = dict(
+    id='BP-16',
+    name='Hướng dẫn viên cộng tác: hồ sơ, hạn thẻ và chi trả thù lao',
+    objective='Chỉ phân công HDV có thẻ còn hạn đúng loại; thù lao tính từ ngày công thực tế và đơn giá đã duyệt, '
+              'ghi vào chi phí của đúng tour trước khi quyết toán, khấu trừ thuế TNCN đúng quy định và chi qua ngân hàng.',
+    trigger='Luồng 1: nhận hồ sơ HDV mới hoặc gia hạn. Luồng 2: thẻ HDV sắp hết hạn. Luồng 3: tour kết thúc, phân công HDV hoàn thành.',
+    outcome='Hồ sơ HDV đang dùng với hạn thẻ, ngôn ngữ, tuyến, đơn giá; thù lao đã ghi nhận vào chi phí tour, đã khấu trừ thuế, đã chi.',
+    scope='HDV cộng tác (không ký hợp đồng lao động). Kiểm tra thẻ và giấy tờ, hợp đồng cộng tác, cảnh báo hạn thẻ, '
+          'tính thù lao, khấu trừ TNCN, duyệt, chi trả, chứng từ khấu trừ thuế.',
+    out_of_scope='HDV là nhân viên chính thức (tính lương theo quy trình nhân sự – tiền lương); phân công cho từng tour (%s).' % bp('BP-08'),
+    modules=['Nhân sự – cộng tác viên (HR)', 'Điều hành – phân công', 'Công nợ / Tiền (AP, CB)', 'Thuế TNCN'],
+    erp_standard='Quản lý nhân sự và chi trả cho cộng tác viên: hồ sơ (master data) → ghi nhận công → tính thù lao và khấu trừ → duyệt → chi.',
+    upstream=[bp('BP-01', 'danh mục HDV'), bp('BP-08', 'phân công'), bp('BP-09', 'ngày công thực tế')],
+    downstream=[bp('BP-10', 'chi phí HDV vào quyết toán tour'), bp('BP-15', 'khóa sổ')],
+    pool_name='Công ty lữ hành — HDV cộng tác',
+    lanes=[
+        lane('HR', 'Kiểm tra hồ sơ, thẻ HDV, ký hợp đồng cộng tác, nhận cam kết thuế.'),
+        lane('SYS', 'Kích hoạt hồ sơ; cảnh báo hạn thẻ và khóa phân công; tính thù lao và khấu trừ; ghi sổ, lập chứng từ khấu trừ.'),
+        lane('ACC', 'Kiểm tra bảng thù lao, ghi nhận chi phí tour.'),
+        lane('CHIEF_ACC', 'Duyệt chi thù lao.'),
+        lane('CASH', 'Chi chuyển khoản cho HDV.'),
+    ],
+    lane_rows={'HR': 2, 'SYS': 2},
+    pools=[pool('HDV', 'top')],
+    nodes=[
+        # Luồng 1: hồ sơ HDV
+        N('S1', 'start', 'HR', 0, 'Nhận hồ sơ HDV mới hoặc gia hạn', ev='message'),
+        N('T1', 'user', 'HR', 1, 'Kiểm tra thẻ HDV, ngoại ngữ, giấy tờ, mã số thuế', ctrl=['C16-01']),
+        N('G1', 'xor', 'HR', 2, 'Đủ điều kiện?'),
+        N('E1', 'end', 'HR', 3, 'Từ chối hồ sơ', row=1),
+        N('T2', 'send', 'HR', 3, 'Ký hợp đồng cộng tác, nhận cam kết thuế'),
+        N('T3', 'service', 'SYS', 4, 'Kích hoạt hồ sơ HDV: tuyến, ngôn ngữ, đơn giá, hạn thẻ',
+          docs='Hồ sơ HDV: ACTIVE'),
+        N('E2', 'end', 'SYS', 5, 'Sẵn sàng phân công'),
+        # Luồng 2: hạn thẻ
+        N('S3', 'start', 'SYS', 6, 'Thẻ HDV còn N ngày hết hạn', ev='timer'),
+        N('T9', 'send', 'SYS', 7, 'Nhắc gia hạn; khóa phân công sau ngày hết hạn', docs='Hồ sơ HDV: LOCKED sau ngày hết hạn'),
+        N('E4', 'end', 'SYS', 8, 'Đã cảnh báo'),
+        # Luồng 3: thù lao
+        N('S2', 'start', 'SYS', 9, 'Tour kết thúc, phân công HDV hoàn thành'),
+        N('T4', 'service', 'SYS', 10, 'Tính thù lao: ngày công × đơn giá + phụ cấp', ctrl=['C16-02']),
+        N('G2', 'xor', 'SYS', 11, 'Thuộc diện khấu trừ 10% TNCN?'),
+        N('T5', 'service', 'SYS', 12, 'Tính khấu trừ 10% TNCN', row=1, ctrl=['C16-03']),
+        N('M1', 'xor', 'SYS', 13, ''),
+        N('T6', 'user', 'ACC', 14, 'Kiểm tra bảng thù lao, ghi nhận chi phí tour',
+          doc='Ghi trước khi đóng hồ sơ tour (BP-10); cấn trừ tạm ứng còn lại của HDV nếu có.',
+          docs='Bảng thù lao: PENDING', ctrl=['C16-05']),
+        N('T7', 'user', 'CHIEF_ACC', 15, 'Duyệt chi thù lao', docs='Bảng thù lao: APPROVED', ctrl=['C16-04']),
+        N('T8', 'user', 'CASH', 16, 'Chi chuyển khoản cho HDV'),
+        N('T10', 'service', 'SYS', 17, 'Ghi sổ thanh toán, lập chứng từ khấu trừ TNCN', docs='Bảng thù lao: POSTED'),
+        N('E3', 'end', 'SYS', 18, 'Đã chi trả thù lao'),
+    ],
+    flows=[
+        F('S1', 'T1'), F('T1', 'G1'),
+        F('G1', 'E1', 'Không'), F('G1', 'T2', 'Có', default=True),
+        F('T2', 'T3'), F('T3', 'E2'),
+        F('S3', 'T9'), F('T9', 'E4'),
+        F('S2', 'T4'), F('T4', 'G2'),
+        F('G2', 'T5', 'Có'), F('G2', 'M1', 'Không', default=True), F('T5', 'M1'),
+        F('M1', 'T6'), F('T6', 'T7'), F('T7', 'T8'), F('T8', 'T10'), F('T10', 'E3'),
+    ],
+    messages=[
+        M('HDV', 'S1', 'Hồ sơ'),
+        M('T2', 'HDV', 'Hợp đồng', dx=-30),
+        M('HDV', 'T2', 'Hợp đồng đã ký, cam kết', dx=30),
+        M('T9', 'HDV', 'Nhắc gia hạn thẻ'),
+        M('T8', 'HDV', 'Thù lao'),
+    ],
+    annotations=[
+        A('N1', 'T1', 'Chỉ HDV có thẻ còn hạn đúng loại mới được kích hoạt (C16-01)', 'HR', 1, row=1),
+        A('N2', 'T4', 'Ngày công lấy từ phân công đã hoàn thành, đơn giá từ hồ sơ (C16-02)', 'SYS', 10, row=1),
+        A('N3', 'T8', 'Người sửa tài khoản ngân hàng HDV khác người tính và người chi (C16-04)', 'CHIEF_ACC', 17, dx=10, w=145),
+    ],
+    controls=[
+        ('C16-01', 'Chỉ kích hoạt và phân công HDV có thẻ còn hạn đúng loại (nội địa, quốc tế, tại điểm); khóa phân công sau ngày hết hạn.',
+         'Phòng ngừa · Cấu hình', 'Elbardan ch07'),
+        ('C16-02', 'Ngày công lấy từ phân công đã hoàn thành; đơn giá từ hồ sơ HDV/hợp đồng đã duyệt; không nhập tay.',
+         'Cấu hình', "O'Leary ch04 (enter once)"),
+        ('C16-03', 'Khấu trừ TNCN 10% tự động khi thuộc diện (cá nhân không ký HĐLĐ, mỗi lần chi từ ngưỡng trở lên, không có cam kết hợp lệ).',
+         'Cấu hình', 'erp-ba-core hr-payroll §7 BR-PAY-10'),
+        ('C16-04', 'Người tạo/sửa hồ sơ và tài khoản ngân hàng HDV khác người tính thù lao và khác người chi tiền.',
+         'Phân quyền (SoD)', 'erp-ba-core ap §10'),
+        ('C16-05', 'Thù lao phải ghi nhận vào chi phí tour trước khi đóng hồ sơ tour; cấn trừ tạm ứng còn lại.',
+         'Phòng ngừa', 'erp-ba-core project-management §7 BR-PRJ-10'),
+    ],
+    documents=[
+        ('Hồ sơ HDV', 'ACTIVE / INACTIVE / LOCKED', 'Thẻ HDV (loại, số, hạn), ngôn ngữ, tuyến, đơn giá, tài khoản ngân hàng.'),
+        ('Hợp đồng cộng tác', 'DRAFT → APPROVED → CLOSED', 'Kèm cam kết thuế nếu có.'),
+        ('Bảng thù lao', 'DRAFT → PENDING → APPROVED → POSTED', 'Theo HDV và mã tour.'),
+        ('Chứng từ khấu trừ thuế TNCN', 'Phát hành điện tử', 'Cấp cho HDV theo lần chi hoặc theo năm.'),
+    ],
+    postings=[
+        ('Ghi nhận thù lao vào chi phí tour', '154 (mã tour)', '3388 hoặc 334', 'Doanh nghiệp thống nhất tài khoản cho cộng tác viên.'),
+        ('Khấu trừ TNCN', '3388 hoặc 334', '3335', ''),
+        ('Chi thù lao', '3388 hoặc 334', '112', ''),
+    ],
+    parameters=[
+        ('Ngưỡng khấu trừ TNCN mỗi lần chi', 'Áp cho cá nhân không ký HĐLĐ', '2.000.000 đ (xác nhận lại quy định hiện hành)'),
+        ('Thuế suất khấu trừ', '', '10%'),
+        ('Cảnh báo hạn thẻ HDV', 'Số ngày trước khi hết hạn', '60 ngày'),
+        ('Kỳ chi thù lao', 'Theo tour hoặc gộp kỳ', 'Doanh nghiệp quy định'),
+    ],
+    kpis=[
+        ('Số phân công HDV thẻ hết hạn', 'Phát hiện khi kiểm tra', '0'),
+        ('Thời gian từ kết thúc tour tới chi thù lao', 'Bình quân', 'Doanh nghiệp quy định'),
+        ('Tỷ lệ thù lao ghi nhận trước khi đóng tour', 'Bảng thù lao ghi trước đóng / tổng', '100%'),
+    ],
+    references=[
+        book('P', 'ch03-erp-modules.md', 'Module HR: Employment, Compensation.'),
+        book('O', 'ch04-erp-data-input.md', 'Ghi dữ liệu tại nguồn (phân công) thay vì nhập lại khi tính tiền.'),
+        book('E', 'ch08-case-study-3-national-bank.md', 'RBAC hai lớp; giám sát thay đổi quyền và dữ liệu nhạy cảm.'),
+        core('processes/hr-payroll.md', '§7 BR-PAY-10', 'khấu trừ 10% TNCN cho cá nhân không ký HĐLĐ.'),
+    ],
+    questions=[
+        'HDV cộng tác hạch toán qua 334 hay 3388?',
+        'Thù lao chi theo từng tour hay gộp theo tháng?',
+        'Ngưỡng khấu trừ TNCN đang áp dụng là bao nhiêu (đã có đề xuất nâng ngưỡng — cần kế toán xác nhận)?',
+    ],
+)

@@ -1,0 +1,16 @@
+stateDiagram-v2
+    state "Nháp" as DRAFT
+    state "Chờ duyệt" as PENDING
+    state "Trả lại để sửa" as RETURNED
+    state "Đã ký số" as APPROVED
+    state "Đã có mã thuế" as POSTED
+    state "Đã hủy nháp" as CANCELLED
+    [*] --> DRAFT : Hệ thống tạo nháp
+    DRAFT --> PENDING : Gửi duyệt
+    PENDING --> RETURNED : Trả lại
+    RETURNED --> PENDING : Gửi duyệt lại
+    PENDING --> APPROVED : Duyệt và ký số
+    APPROVED --> POSTED : Cơ quan thuế cấp mã
+    DRAFT --> CANCELLED : Hủy nháp
+    POSTED --> [*]
+    CANCELLED --> [*]

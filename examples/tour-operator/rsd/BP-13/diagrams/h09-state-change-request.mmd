@@ -1,0 +1,27 @@
+stateDiagram-v2
+    state "Nháp" as DRAFT
+    state "Chờ khách xác nhận" as WAITC
+    state "Chờ duyệt giảm phí" as WAITA
+    state "Trả lại để sửa" as RETURNED
+    state "Đã duyệt" as APPROVED
+    state "Đang làm với NCC" as INPROG
+    state "Hoàn thành" as COMPLETED
+    state "Từ chối" as REJECTED
+    state "Đã hủy" as CANCELLED
+    [*] --> DRAFT : Lập phiếu
+    DRAFT --> WAITC : Gửi phương án
+    DRAFT --> WAITA : Gửi duyệt giảm phí
+    DRAFT --> APPROVED : Hủy không giảm phí
+    WAITC --> APPROVED : Khách đồng ý
+    WAITC --> REJECTED : Khách từ chối hoặc quá hạn
+    WAITA --> APPROVED : Duyệt
+    WAITA --> RETURNED : Trả lại
+    RETURNED --> WAITA : Gửi duyệt lại
+    DRAFT --> CANCELLED : Khách rút yêu cầu
+    WAITC --> CANCELLED : Khách rút yêu cầu
+    APPROVED --> INPROG : Có dịch vụ NCC cần sửa
+    APPROVED --> COMPLETED : Không có dịch vụ NCC
+    INPROG --> COMPLETED : NCC xác nhận hết
+    COMPLETED --> [*]
+    REJECTED --> [*]
+    CANCELLED --> [*]

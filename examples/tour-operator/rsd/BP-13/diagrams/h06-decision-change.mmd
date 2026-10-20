@@ -1,0 +1,19 @@
+flowchart TD
+    classDef sys fill:#e8f1fb,stroke:#4a7ab5,color:#14365d
+    classDef dec fill:#fff4d6,stroke:#c9a227,color:#5a4500
+    classDef stop fill:#eaf6ea,stroke:#3c8d3c,color:#1d4d1d
+    classDef bad fill:#fdecec,stroke:#c0504d,color:#6b1f1d
+    S(["Yêu cầu thay đổi"]):::stop --> C1{"Là đền bù khiếu nại?"}:::dec
+    C1 -->|"Có"| P1["Chênh lệch = trừ số tiền đền bù đã duyệt"]:::sys
+    P1 --> A0(["Phiếu đã duyệt, không cần gửi khách lại"]):::stop
+    C1 -->|"Không"| C2{"Chuyến hoặc dịch vụ mới còn mở bán?"}:::dec
+    C2 -->|"Không"| M1["Báo lỗi, chọn phương án khác"]:::bad
+    C2 -->|"Có"| C3{"Đủ chỗ?"}:::dec
+    C3 -->|"Không"| M2["Báo lỗi thiếu chỗ"]:::bad
+    C3 -->|"Có"| P2["Chênh lệch = Giá mới + Phí thay đổi - Giá cũ"]:::sys
+    P2 --> P3["Gửi phương án, giữ chỗ tạm"]:::sys
+    P3 --> C4{"Khách trả lời trong hạn?"}:::dec
+    C4 -->|"Không"| R1(["Từ chối, nhả chỗ tạm"]):::bad
+    C4 -->|"Có"| C5{"Khách đồng ý?"}:::dec
+    C5 -->|"Không"| R1
+    C5 -->|"Có"| A1(["Phiếu đã duyệt"]):::stop

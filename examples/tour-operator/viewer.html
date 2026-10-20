@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Bộ quy trình BPMN — ERP điều hành tour</title>
+<!-- Sinh tự động bởi bpmn-kit. Cần chạy qua HTTP: python3 -m http.server 8000 rồi mở http://localhost:8000/viewer.html -->
+<link rel="stylesheet" href="../../bpmn-kit/node_modules/bpmn-js/dist/assets/diagram-js.css">
+<link rel="stylesheet" href="../../bpmn-kit/node_modules/bpmn-js/dist/assets/bpmn-js.css">
+<link rel="stylesheet" href="../../bpmn-kit/node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css">
+<style>
+  html, body { margin: 0; height: 100%; font-family: system-ui, sans-serif; }
+  header { display: flex; gap: 12px; align-items: center; padding: 8px 12px; border-bottom: 1px solid #ddd; font-size: 14px; }
+  header select { font-size: 14px; padding: 4px; }
+  header .hint { color: #666; margin-left: auto; }
+  #canvas { position: absolute; top: 46px; bottom: 0; left: 0; right: 0; }
+  #err { color: #b00; }
+</style>
+</head>
+<body>
+<header>
+  <select id="pick"></select>
+  <a id="doc" href="#">Tài liệu</a>
+  <a id="dl" href="#" download>Tải .bpmn</a>
+  <span id="err"></span>
+  <span class="hint">Cuộn chuột để phóng to, kéo để di chuyển, bấm biểu tượng ở góc ô quy trình con để mở bên trong</span>
+</header>
+<div id="canvas"></div>
+<script src="../../bpmn-kit/node_modules/bpmn-js/dist/bpmn-navigated-viewer.production.min.js"></script>
+<script>
+  const FILES = [["BP-00-tong-quan-chuoi-gia-tri", "BP-00 — Tổng quan chuỗi giá trị của doanh nghiệp điều hành tour"], ["BP-01-quan-ly-du-lieu-goc", "BP-01 — Quản lý dữ liệu gốc: tạo và thay đổi danh mục có kiểm soát"], ["BP-02-hop-dong-ncc-quy-cho", "BP-02 — Hợp đồng nhà cung cấp, bảng giá theo mùa và quỹ chỗ (allotment)"], ["BP-03-thiet-ke-tour-tinh-gia", "BP-03 — Thiết kế sản phẩm tour và tính giá (chương trình tour mẫu)"], ["BP-04-hoach-dinh-mua-vu-lich-khoi-hanh", "BP-04 — Hoạch định mùa vụ và lịch khởi hành (S&OP hằng tháng)"], ["BP-05-ban-tour-ghep", "BP-05 — Bán tour ghép: giữ chỗ, thu cọc, xác nhận booking"], ["BP-06-ban-tour-thiet-ke-rieng", "BP-06 — Bán tour thiết kế riêng: yêu cầu → dựng chương trình (thủ công hoặc AI) → bản chào → chốt → cọc"], ["BP-07-chot-chuyen-tra-cho", "BP-07 — Chốt chuyến khởi hành và trả chỗ cho nhà cung cấp"], ["BP-08-dat-dich-vu-chuan-bi-doan", "BP-08 — Đặt dịch vụ nhà cung cấp và chuẩn bị đoàn"], ["BP-09-thuc-hien-tour-xu-ly-su-co", "BP-09 — Thực hiện tour và xử lý sự cố"], ["BP-10-quyet-toan-dong-ho-so-tour", "BP-10 — Quyết toán và đóng hồ sơ tour"], ["BP-11-thu-tien-cong-no-phai-thu", "BP-11 — Thu tiền khách hàng và công nợ phải thu (kèm đối chiếu công nợ đại lý)"], ["BP-12-thanh-toan-ncc-cong-no-phai-tra", "BP-12 — Thanh toán nhà cung cấp và công nợ phải trả"], ["BP-13-thay-doi-huy-booking-hoan-tien", "BP-13 — Thay đổi, hủy booking và hoàn tiền"], ["BP-14-cham-soc-khach-hang-khieu-nai", "BP-14 — Chăm sóc khách hàng sau tour và xử lý khiếu nại"], ["BP-15-khoa-so-cuoi-ky", "BP-15 — Khóa sổ cuối kỳ và báo cáo (Record-to-Report)"], ["BP-16-hdv-cong-tac-chi-tra-thu-lao", "BP-16 — Hướng dẫn viên cộng tác: hồ sơ, hạn thẻ và chi trả thù lao"]];
+  const pick = document.getElementById('pick');
+  FILES.forEach(([slug, title]) => pick.add(new Option(title, slug)));
+  const viewer = new BpmnJS({ container: '#canvas' });
+  async function show(slug) {
+    document.getElementById('doc').href = 'docs/' + slug + '.md';
+    document.getElementById('dl').href = 'bpmn/' + slug + '.bpmn';
+    try {
+      const xml = await (await fetch('bpmn/' + slug + '.bpmn')).text();
+      await viewer.importXML(xml);
+      viewer.get('canvas').zoom('fit-viewport');
+      document.getElementById('err').textContent = '';
+      location.hash = slug;
+    } catch (e) {
+      document.getElementById('err').textContent = 'Không mở được: ' + e.message;
+    }
+  }
+  pick.onchange = () => show(pick.value);
+  const start = location.hash.slice(1) || FILES[0][0];
+  pick.value = start;
+  show(start);
+</script>
+</body>
+</html>

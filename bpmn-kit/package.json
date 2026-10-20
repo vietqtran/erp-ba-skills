@@ -1,0 +1,11 @@
+{
+  "name": "erp-ba-bpmn-kit",
+  "private": true,
+  "type": "module",
+  "description": "Sinh BPMN 2.0 + tài liệu từ định nghĩa quy trình; render SVG/PNG; kiểm tra bpmnlint",
+  "dependencies": {
+    "bpmn-js": "^18.31.0",
+    "bpmnlint": "^11.15.0",
+    "puppeteer-core": "^25.15.0"
+  }
+}

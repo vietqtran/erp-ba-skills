@@ -1,28 +1,32 @@
-# Bộ skill BA ERP
+# ERP BA — bộ quy trình BPMN chuẩn ERP
 
-Bộ skill cho Claude Code giúp BA/AI agent viết tài liệu nghiệp vụ ERP theo 5 bước, bám sát yêu cầu gốc (không lệch, không thừa, không thiếu, không mâu thuẫn), đủ chi tiết để dev code ngay.
+Dùng để vẽ nhanh bộ quy trình nghiệp vụ chuẩn ERP (sơ đồ BPMN 2.0 kèm tài liệu) cho một doanh nghiệp **trước buổi khảo sát**,
+dựa trên 4 cuốn sách ERP. Kết quả gồm sơ đồ, tài liệu từng quy trình và bộ câu hỏi mang đi gặp khách.
 
-| Skill | Vai trò |
+## Bắt đầu
+
+1. Cài một lần: Python 3, Node.js ≥ 18, Chrome (hoặc Edge), Claude Code.
+2. Mở Claude Code tại thư mục gốc repo này.
+3. Mở [`bpmn-kit/PROMPT.md`](bpmn-kit/PROMPT.md), điền 5 dòng đầu, dán cả khối vào Claude Code.
+4. Kết quả nằm ở `projects/<tên dự án>/`:
+   - `README.md`: danh mục quy trình, ký hiệu, nguyên tắc, các điểm cần chốt.
+   - `docs/`: tài liệu từng quy trình, có ảnh sơ đồ ở đầu.
+   - `CAU-HOI-KHAO-SAT.md`: câu hỏi và các con số đề xuất cần khách xác nhận.
+   - `bpmn/`: file BPMN mở bằng Camunda Modeler, bpmn.io hoặc draw.io; `png/`, `svg/`: ảnh để chèn vào tài liệu.
+   - `viewer.html`: xem tương tác (chạy `python3 -m http.server` ở gốc repo, mở `http://localhost:8000/projects/<tên>/viewer.html`).
+
+Xem trước một bộ hoàn chỉnh: [`examples/tour-operator`](examples/tour-operator/README.md) — công ty điều hành tour, 17 quy trình.
+
+## Cấu trúc
+
+| Thư mục | Nội dung |
 |---|---|
-| `erp-ba-step1-research` | Research ngành, luật, đối thủ → danh mục tính năng, câu hỏi khảo sát (checklist C1) |
-| `erp-ba-step2-requirements` | Biên bản họp → sổ yêu cầu có trích dẫn, tài liệu & quy trình tổng quan TO-BE (C2) |
-| `erp-ba-step3-specification` | Phân rã module → chức năng; đặc tả 21 mục đủ để code (C3, C3F, C3R) |
-| `erp-ba-step4-verify` | Tự kiểm có bằng chứng, 4 câu hỏi bắt buộc của BA, điều phối vòng lặp (C4) |
-| `erp-ba-step5-review` | Review độc lập bằng agent khác theo 6 góc nhìn (C5) |
-| `erp-ba-core` | Quy ước dùng chung, công cụ `scripts/ba.py`, kho kiến thức ERP, workspace mẫu |
-| `parthasarathy-erp-fundamentals`, `oleary-erp-systems-lifecycle`, `wallace-erp-implementation`, `elbardan-erp-governance-audit` | Kiến thức ERP tóm lược từ 4 cuốn sách (phương pháp book-to-skill) |
+| `books/` | Tóm lược 4 cuốn sách ERP (Parthasarathy, Wallace & Kremzar, O'Leary, Elbardan & Kholeif) — nguồn chuẩn ERP |
+| `bpmn-kit/` | Prompt, công cụ sinh sơ đồ dùng chung (không cần sửa), mẫu định nghĩa quy trình |
+| `examples/` | Bộ đã làm để tham khảo |
+| `projects/` | Nơi chứa các dự án mới |
 
-## Cài đặt
+## Sửa sau khi đã sinh
 
-```bash
-cp -r erp-ba-* *-erp-* ~/.claude/skills/
-python3 ~/.claude/skills/erp-ba-core/scripts/selftest.py   # kiểm tra công cụ
-```
-
-Các skill bước tìm `erp-ba-core` ở thư mục cạnh chúng — luôn cài đủ bộ trong cùng một thư mục skill.
-
-## Lưu ý
-
-- Các skill sách là bản tóm lược và diễn giải lại (không chép nguyên văn) từ sách có bản quyền — chỉ dùng nội bộ, không công khai repo.
-- Luật trong `erp-ba-core/references/regulations/` cập nhật đến 20/10/2026 — kiểm tra lại hiệu lực khi dùng cho dự án.
-- `erp-ba-workspace/evals/` chứa kịch bản đánh giá (chưa chạy).
+Không sửa tay file trong `bpmn/` hay `docs/` — lần sinh sau sẽ ghi đè. Nói với Claude Code điều cần đổi
+(vd "BP-06 thêm bước duyệt của Giám đốc"); nó sửa `projects/<tên>/defs/` và chạy lại `bpmn-kit/scripts/build.sh projects/<tên>`.

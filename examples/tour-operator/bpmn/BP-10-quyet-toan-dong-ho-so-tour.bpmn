@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_BP10" targetNamespace="http://tour-erp.local/bpmn" exporter="tour-erp-bpmn (bpmn_gen.py)" exporterVersion="1.0">
+  <bpmn:collaboration id="Collab_BP10">
+    <bpmn:participant id="P_MAIN" name="Công ty lữ hành — Quyết toán tour" processRef="Process_BP10" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_BP10" name="BP-10 Quyết toán và đóng hồ sơ tour" isExecutable="false">
+    <bpmn:documentation>Có lãi lỗ thực tế của từng tour trong vài ngày sau khi tour kết thúc (không chờ cuối tháng), với đủ chi phí: hóa đơn NCC, chi tại điểm, thù lao HDV, trích trước phần chưa có hóa đơn; rồi đóng hồ sơ khi không còn việc mở.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_BP10">
+      <bpmn:lane id="Lane_GUIDE" name="Hướng dẫn viên">
+        <bpmn:flowNodeRef>T1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_OPS" name="Điều hành (Operator)">
+        <bpmn:flowNodeRef>S1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>M2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T7</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T10</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_OPS_MGR" name="Trưởng Điều hành">
+        <bpmn:flowNodeRef>T11</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_SYS" name="Hệ thống ERP">
+        <bpmn:flowNodeRef>G1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T5</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>M1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T6</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>G2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>M3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>M4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T9</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>G4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T12</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>E1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_ACC" name="Kế toán công nợ">
+        <bpmn:flowNodeRef>T2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>C2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>C3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>C1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P2</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_CHIEF_ACC" name="Kế toán trưởng">
+        <bpmn:flowNodeRef>T8</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>G3</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="S1" name="Tour kết thúc">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:parallelGateway id="P1" name="">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:userTask id="T1" name="Nộp bảng kê chi tiêu, chứng từ, hoàn tiền thừa">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="T3" name="Đối chiếu dịch vụ thực dùng, ghi nhận tăng giảm">
+      <bpmn:documentation>So số lượng HDV xác nhận với đơn đặt dịch vụ; ghi tăng/giảm với NCC.</bpmn:documentation>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="T2" name="Kiểm tra chứng từ, quyết toán tạm ứng">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:callActivity id="C2" name="BP-11 Thu tiền &amp; công nợ phải thu" calledElement="Process_BP11">
+      <bpmn:documentation>Xuất hóa đơn tại thời điểm hoàn thành dịch vụ (nếu chưa xuất) và thu đủ.</bpmn:documentation>
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="C3" name="BP-16 HDV cộng tác &amp; chi trả thù lao" calledElement="Process_BP16">
+      <bpmn:documentation>Tính và ghi nhận thù lao HDV vào chi phí tour; cấn trừ tạm ứng còn lại.</bpmn:documentation>
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="C1" name="BP-12 Thanh toán NCC &amp; công nợ phải trả" calledElement="Process_BP12">
+      <bpmn:documentation>Nhận và đối chiếu 3 chiều hóa đơn NCC, ghi chi phí vào tour.</bpmn:documentation>
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:parallelGateway id="P2" name="">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:exclusiveGateway id="G1" name="Đã đủ hóa đơn NCC?" default="Flow_13">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="T5" name="Trích trước chi phí theo giá NCC xác nhận">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="M1" name="">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="T6" name="Lập bảng quyết toán: doanh thu, chi phí thực tế, lãi lỗ">
+      <bpmn:documentation>So với dự toán theo từng hạng mục (lưu trú, vận chuyển, vé, ăn, HDV, phát sinh).</bpmn:documentation>
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="G2" name="Chênh lệch so dự toán vượt ngưỡng?" default="Flow_18">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="M2" name="">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="T7" name="Giải trình chênh lệch">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="M3" name="">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="T8" name="Kiểm tra, xác nhận bảng quyết toán">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="G3" name="Đạt?" default="Flow_24">
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="M4" name="">
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+      <bpmn:incoming>Flow_28</bpmn:incoming>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="T9" name="Kiểm tra điều kiện đóng hồ sơ">
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="G4" name="Đủ điều kiện đóng?" default="Flow_29">
+      <bpmn:incoming>Flow_26</bpmn:incoming>
+      <bpmn:outgoing>Flow_27</bpmn:outgoing>
+      <bpmn:outgoing>Flow_29</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="T10" name="Xử lý mục còn mở">
+      <bpmn:incoming>Flow_27</bpmn:incoming>
+      <bpmn:outgoing>Flow_28</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="T11" name="Đóng hồ sơ tour">
+      <bpmn:incoming>Flow_29</bpmn:incoming>
+      <bpmn:outgoing>Flow_30</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="T12" name="Kết chuyển giá vốn, khóa hồ sơ, cập nhật lãi lỗ">
+      <bpmn:incoming>Flow_30</bpmn:incoming>
+      <bpmn:outgoing>Flow_31</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DOA_T12_D1"><bpmn:targetRef>D1</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="E1" name="Hồ sơ tour đã đóng">
+      <bpmn:incoming>Flow_31</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="S1" targetRef="P1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="P1" targetRef="T1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="P1" targetRef="T3" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="P1" targetRef="C2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="T1" targetRef="T2" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="T2" targetRef="C3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="C3" targetRef="P2" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="T3" targetRef="C1" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="C1" targetRef="P2" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="C2" targetRef="P2" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="P2" targetRef="G1" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="G1" targetRef="T5" name="Chưa đủ">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">Chưa đủ</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="G1" targetRef="M1" name="Đủ" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="T5" targetRef="M1" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="M1" targetRef="T6" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="T6" targetRef="G2" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="G2" targetRef="M2" name="Có">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">Có</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="G2" targetRef="M3" name="Không" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="M2" targetRef="T7" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="T7" targetRef="M3" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="M3" targetRef="T8" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="T8" targetRef="G3" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="G3" targetRef="M2" name="Chưa đạt">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">Chưa đạt</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="G3" targetRef="M4" name="Đạt" />
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="M4" targetRef="T9" />
+    <bpmn:sequenceFlow id="Flow_26" sourceRef="T9" targetRef="G4" />
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="G4" targetRef="T10" name="Chưa đủ">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">Chưa đủ</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_28" sourceRef="T10" targetRef="M4" />
+    <bpmn:sequenceFlow id="Flow_29" sourceRef="G4" targetRef="T11" name="Đủ" />
+    <bpmn:sequenceFlow id="Flow_30" sourceRef="T11" targetRef="T12" />
+    <bpmn:sequenceFlow id="Flow_31" sourceRef="T12" targetRef="E1" />
+    <bpmn:dataStoreReference id="D1" name="Sổ cái và sổ chi tiết theo mã tour" />
+    <bpmn:textAnnotation id="N1"><bpmn:text>Hóa đơn từ 5 triệu trả tiền mặt: không được khấu trừ (C10-02)</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="Assoc_N1" associationDirection="None" sourceRef="T2" targetRef="N1" />
+    <bpmn:textAnnotation id="N2"><bpmn:text>Người lập quyết toán khác người xác nhận (C10-04)</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="Assoc_N2" associationDirection="None" sourceRef="T8" targetRef="N2" />
+    <bpmn:textAnnotation id="N3"><bpmn:text>Đủ điều kiện đóng mới được đóng; hồ sơ đóng bị khóa (C10-05, C10-06)</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="Assoc_N3" associationDirection="None" sourceRef="T9" targetRef="N3" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_BP10" name="BP-10 Quyết toán và đóng hồ sơ tour">
+    <bpmndi:BPMNPlane id="Plane_BP10" bpmnElement="Collab_BP10">
+      <bpmndi:BPMNShape id="P_MAIN_di" bpmnElement="P_MAIN" isHorizontal="true"><dc:Bounds x="100" y="40" width="3950" height="1260" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_GUIDE_di" bpmnElement="Lane_GUIDE" isHorizontal="true"><dc:Bounds x="130" y="40" width="3920" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_OPS_di" bpmnElement="Lane_OPS" isHorizontal="true"><dc:Bounds x="130" y="180" width="3920" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_OPS_MGR_di" bpmnElement="Lane_OPS_MGR" isHorizontal="true"><dc:Bounds x="130" y="320" width="3920" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_SYS_di" bpmnElement="Lane_SYS" isHorizontal="true"><dc:Bounds x="130" y="460" width="3920" height="280" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_ACC_di" bpmnElement="Lane_ACC" isHorizontal="true"><dc:Bounds x="130" y="740" width="3920" height="420" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_CHIEF_ACC_di" bpmnElement="Lane_CHIEF_ACC" isHorizontal="true"><dc:Bounds x="130" y="1160" width="3920" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S1_di" bpmnElement="S1"><dc:Bounds x="250" y="232" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="218" y="274" width="100" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="P1_di" bpmnElement="P1"><dc:Bounds x="418" y="225" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T1_di" bpmnElement="T1"><dc:Bounds x="550" y="66" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T3_di" bpmnElement="T3"><dc:Bounds x="550" y="206" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T2_di" bpmnElement="T2"><dc:Bounds x="724" y="766" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="C2_di" bpmnElement="C2"><dc:Bounds x="724" y="1046" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="C3_di" bpmnElement="C3"><dc:Bounds x="900" y="766" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="C1_di" bpmnElement="C1"><dc:Bounds x="900" y="906" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="P2_di" bpmnElement="P2"><dc:Bounds x="1118" y="925" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="G1_di" bpmnElement="G1" isMarkerVisible="true"><dc:Bounds x="1292" y="505" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1268" y="471" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T5_di" bpmnElement="T5"><dc:Bounds x="1424" y="626" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="M1_di" bpmnElement="M1" isMarkerVisible="true"><dc:Bounds x="1642" y="505" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T6_di" bpmnElement="T6"><dc:Bounds x="1774" y="486" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="G2_di" bpmnElement="G2" isMarkerVisible="true"><dc:Bounds x="1992" y="505" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1968" y="561" width="100" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="M2_di" bpmnElement="M2" isMarkerVisible="true"><dc:Bounds x="2168" y="225" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T7_di" bpmnElement="T7"><dc:Bounds x="2300" y="206" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="M3_di" bpmnElement="M3" isMarkerVisible="true"><dc:Bounds x="2518" y="505" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T8_di" bpmnElement="T8"><dc:Bounds x="2650" y="1186" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="G3_di" bpmnElement="G3" isMarkerVisible="true"><dc:Bounds x="2868" y="1205" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2842" y="1261" width="100" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="M4_di" bpmnElement="M4" isMarkerVisible="true"><dc:Bounds x="3042" y="505" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T9_di" bpmnElement="T9"><dc:Bounds x="3174" y="486" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="G4_di" bpmnElement="G4" isMarkerVisible="true"><dc:Bounds x="3392" y="505" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="3368" y="561" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T10_di" bpmnElement="T10"><dc:Bounds x="3350" y="206" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T11_di" bpmnElement="T11"><dc:Bounds x="3524" y="346" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T12_di" bpmnElement="T12"><dc:Bounds x="3700" y="486" width="136" height="88" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="E1_di" bpmnElement="E1"><dc:Bounds x="3924" y="512" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="3892" y="554" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="D1_di" bpmnElement="D1"><dc:Bounds x="3742" y="645" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="3718" y="699" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N1_di" bpmnElement="N1"><dc:Bounds x="537" y="921" width="161" height="58" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N2_di" bpmnElement="N2"><dc:Bounds x="2462" y="1201" width="161" height="58" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N3_di" bpmnElement="N3"><dc:Bounds x="3162" y="641" width="161" height="58" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1"><di:waypoint x="286" y="250" /><di:waypoint x="418" y="250" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2"><di:waypoint x="442" y="225" /><di:waypoint x="442" y="110" /><di:waypoint x="550" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3"><di:waypoint x="468" y="250" /><di:waypoint x="550" y="250" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4"><di:waypoint x="442" y="275" /><di:waypoint x="442" y="1090" /><di:waypoint x="724" y="1090" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5"><di:waypoint x="686" y="110" /><di:waypoint x="717" y="110" /><di:waypoint x="717" y="810" /><di:waypoint x="724" y="810" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6"><di:waypoint x="860" y="810" /><di:waypoint x="900" y="810" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7"><di:waypoint x="1036" y="810" /><di:waypoint x="1142" y="810" /><di:waypoint x="1142" y="925" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8"><di:waypoint x="686" y="250" /><di:waypoint x="892" y="250" /><di:waypoint x="892" y="950" /><di:waypoint x="900" y="950" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9"><di:waypoint x="1036" y="950" /><di:waypoint x="1118" y="950" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10"><di:waypoint x="860" y="1090" /><di:waypoint x="1142" y="1090" /><di:waypoint x="1142" y="975" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11"><di:waypoint x="1168" y="950" /><di:waypoint x="1242" y="950" /><di:waypoint x="1242" y="530" /><di:waypoint x="1292" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12"><di:waypoint x="1318" y="555" /><di:waypoint x="1318" y="670" /><di:waypoint x="1424" y="670" /><bpmndi:BPMNLabel><dc:Bounds x="1322" y="559" width="49" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13"><di:waypoint x="1342" y="530" /><di:waypoint x="1642" y="530" /><bpmndi:BPMNLabel><dc:Bounds x="1348" y="513" width="36" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14"><di:waypoint x="1560" y="670" /><di:waypoint x="1668" y="670" /><di:waypoint x="1668" y="555" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15_di" bpmnElement="Flow_15"><di:waypoint x="1692" y="530" /><di:waypoint x="1774" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16_di" bpmnElement="Flow_16"><di:waypoint x="1910" y="530" /><di:waypoint x="1992" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17_di" bpmnElement="Flow_17"><di:waypoint x="2018" y="505" /><di:waypoint x="2018" y="250" /><di:waypoint x="2168" y="250" /><bpmndi:BPMNLabel><dc:Bounds x="2022" y="487" width="36" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18_di" bpmnElement="Flow_18"><di:waypoint x="2042" y="530" /><di:waypoint x="2518" y="530" /><bpmndi:BPMNLabel><dc:Bounds x="2048" y="513" width="36" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19_di" bpmnElement="Flow_19"><di:waypoint x="2218" y="250" /><di:waypoint x="2300" y="250" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_20_di" bpmnElement="Flow_20"><di:waypoint x="2436" y="250" /><di:waypoint x="2542" y="250" /><di:waypoint x="2542" y="505" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_21_di" bpmnElement="Flow_21"><di:waypoint x="2568" y="530" /><di:waypoint x="2642" y="530" /><di:waypoint x="2642" y="1230" /><di:waypoint x="2650" y="1230" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_22_di" bpmnElement="Flow_22"><di:waypoint x="2786" y="1230" /><di:waypoint x="2868" y="1230" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_23_di" bpmnElement="Flow_23"><di:waypoint x="2892" y="1205" /><di:waypoint x="2892" y="190" /><di:waypoint x="2192" y="190" /><di:waypoint x="2192" y="225" /><bpmndi:BPMNLabel><dc:Bounds x="2898" y="1187" width="56" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_24_di" bpmnElement="Flow_24"><di:waypoint x="2918" y="1230" /><di:waypoint x="2992" y="1230" /><di:waypoint x="2992" y="530" /><di:waypoint x="3042" y="530" /><bpmndi:BPMNLabel><dc:Bounds x="2924" y="1213" width="36" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_25_di" bpmnElement="Flow_25"><di:waypoint x="3092" y="530" /><di:waypoint x="3174" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_26_di" bpmnElement="Flow_26"><di:waypoint x="3310" y="530" /><di:waypoint x="3392" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_27_di" bpmnElement="Flow_27"><di:waypoint x="3418" y="505" /><di:waypoint x="3418" y="294" /><bpmndi:BPMNLabel><dc:Bounds x="3422" y="487" width="49" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_28_di" bpmnElement="Flow_28"><di:waypoint x="3418" y="206" /><di:waypoint x="3418" y="190" /><di:waypoint x="3068" y="190" /><di:waypoint x="3068" y="505" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_29_di" bpmnElement="Flow_29"><di:waypoint x="3442" y="530" /><di:waypoint x="3517" y="530" /><di:waypoint x="3517" y="390" /><di:waypoint x="3524" y="390" /><bpmndi:BPMNLabel><dc:Bounds x="3448" y="513" width="36" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_30_di" bpmnElement="Flow_30"><di:waypoint x="3660" y="390" /><di:waypoint x="3692" y="390" /><di:waypoint x="3692" y="530" /><di:waypoint x="3700" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_31_di" bpmnElement="Flow_31"><di:waypoint x="3836" y="530" /><di:waypoint x="3924" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DOA_T12_D1_di" bpmnElement="DOA_T12_D1"><di:waypoint x="3768" y="574" /><di:waypoint x="3768" y="645" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Assoc_N1_di" bpmnElement="Assoc_N1"><di:waypoint x="738" y="854" /><di:waypoint x="654" y="921" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Assoc_N2_di" bpmnElement="Assoc_N2"><di:waypoint x="2650" y="1230" /><di:waypoint x="2623" y="1230" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Assoc_N3_di" bpmnElement="Assoc_N3"><di:waypoint x="3242" y="574" /><di:waypoint x="3242" y="641" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

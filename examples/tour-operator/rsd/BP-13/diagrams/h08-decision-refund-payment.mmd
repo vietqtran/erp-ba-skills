@@ -1,0 +1,22 @@
+flowchart TD
+    classDef sys fill:#e8f1fb,stroke:#4a7ab5,color:#14365d
+    classDef dec fill:#fff4d6,stroke:#c9a227,color:#5a4500
+    classDef stop fill:#eaf6ea,stroke:#3c8d3c,color:#1d4d1d
+    classDef bad fill:#fdecec,stroke:#c0504d,color:#6b1f1d
+    S(["Phiếu chi chờ duyệt"]):::stop --> C0{"Hóa đơn điều chỉnh, nếu có, đã được cấp mã?"}:::dec
+    C0 -->|"Chưa"| M0["Chưa cho duyệt"]:::bad
+    C0 -->|"Rồi"| C1{"Người duyệt là người lập phiếu yêu cầu?"}:::dec
+    C1 -->|"Đúng"| M1["Chặn, vi phạm tách nhiệm vụ"]:::bad
+    C1 -->|"Không"| C2{"Số hoàn vượt ngưỡng cần Ban Giám đốc?"}:::dec
+    C2 -->|"Có"| D2["Kế toán trưởng duyệt, rồi Ban Giám đốc duyệt"]:::sys
+    C2 -->|"Không"| D1["Kế toán trưởng duyệt"]:::sys
+    C3{"Người lập lệnh chi khác người duyệt và người lập phiếu?"}:::dec
+    D1 --> C3
+    D2 --> C3
+    C3 -->|"Không"| M2["Chặn, vi phạm tách nhiệm vụ"]:::bad
+    C3 -->|"Đúng"| C4{"Chuyển về đúng tài khoản gốc?"}:::dec
+    C4 -->|"Không"| M3["Chặn, trừ khi đã có văn bản và đủ duyệt"]:::bad
+    C4 -->|"Đúng"| P1["Gửi lệnh chi sang ngân hàng"]:::sys
+    P1 --> C5{"Ngân hàng báo chi thành công?"}:::dec
+    C5 -->|"Có"| OK(["Đã hoàn tiền, ghi sổ"]):::stop
+    C5 -->|"Không"| BK(["Trả về Đã duyệt, báo Kế toán"]):::bad

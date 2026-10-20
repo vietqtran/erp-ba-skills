@@ -1,0 +1,22 @@
+flowchart TD
+    classDef sys fill:#e8f1fb,stroke:#4a7ab5,color:#14365d
+    classDef dec fill:#fff4d6,stroke:#c9a227,color:#5a4500
+    classDef stop fill:#eaf6ea,stroke:#3c8d3c,color:#1d4d1d
+    S(["Booking đã cập nhật"]):::stop --> C1{"Đã xuất hóa đơn cho phần thay đổi?"}:::dec
+    C1 -->|"Có"| C2{"Điều chỉnh hay thay thế?"}:::dec
+    C2 -->|"Điều chỉnh"| H1["Hóa đơn điều chỉnh, hóa đơn gốc vẫn hiệu lực"]:::sys
+    C2 -->|"Thay thế"| H2["Hóa đơn thay thế, hóa đơn gốc bị thay thế"]:::sys
+    H3["Kế toán trưởng duyệt, ký số, cơ quan thuế cấp mã"]:::sys
+    H1 --> H3
+    H2 --> H3
+    C3{"Đã thu nhiều hơn số phải thu mới?"}:::dec
+    C1 -->|"Không"| C3
+    H3 --> C3
+    C3 -->|"Không"| C4{"Còn phải thu thêm?"}:::dec
+    C4 -->|"Có"| T1["Cập nhật lịch thu để thu tiếp"]:::sys
+    C4 -->|"Không"| X(["Gửi xác nhận cuối"]):::stop
+    T1 --> X
+    C3 -->|"Có"| C5{"Đại lý mua công nợ?"}:::dec
+    C5 -->|"Có"| T2["Cấn trừ vào công nợ, không chi tiền"]:::sys
+    T2 --> X
+    C5 -->|"Không"| T3(["Tạo phiếu chi hoàn tiền, chờ duyệt"]):::stop
